@@ -89,7 +89,6 @@ export type ProjectDetail = {
 
 export type Project = {
   id: string;
-  emoji: string;
   name: string;
   tagline: string;
   toggleLabel: string;
@@ -101,7 +100,6 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: "runforge",
-    emoji: "🏃",
     name: "Run Forge",
     tagline: "A daily activity tracker for every kind of movement, not just running.",
     toggleLabel: "The idea · What I cut · What I learned",
@@ -123,7 +121,6 @@ export const projects: Project[] = [
   },
   {
     id: "hydroforge",
-    emoji: "💧",
     name: "Hydro Forge",
     tagline: "Track water. No lectures. No guilt.",
     toggleLabel: "The problem · Features · What I learned",
@@ -144,7 +141,6 @@ export const projects: Project[] = [
   },
   {
     id: "moneyforge",
-    emoji: "💸",
     name: "Money Forge",
     tagline: "One question: how much do I actually have left?",
     toggleLabel: "The problem · Features · What I learned",

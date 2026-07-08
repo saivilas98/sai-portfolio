@@ -14,8 +14,7 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
     <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 rounded-[1.75rem] border border-line bg-surface p-7 sm:p-10 md:p-12">
       <div className={`lg:col-span-6 flex flex-col gap-5 ${reversed ? "lg:order-2" : "lg:order-1"}`}>
         <div>
-          <span className="text-3xl">{project.emoji}</span>
-          <h3 className="mt-3 font-display text-2xl md:text-3xl font-medium leading-tight text-ink text-balance">
+          <h3 className="font-display text-2xl md:text-3xl font-medium leading-tight text-ink text-balance">
             {project.name}
           </h3>
           <p className="mt-2 text-base text-muted text-balance">{project.tagline}</p>

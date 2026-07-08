@@ -1,8 +1,17 @@
+import { BarChart3, Briefcase, GraduationCap, Rocket, Target } from "lucide-react";
 import { journey } from "../../data/content";
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
-import type { JourneyEntry } from "../../data/content";
+import type { JourneyEntry, JourneyIcon } from "../../data/content";
+
+const icons: Record<JourneyIcon, typeof GraduationCap> = {
+  "graduation-cap": GraduationCap,
+  briefcase: Briefcase,
+  rocket: Rocket,
+  "bar-chart-3": BarChart3,
+  target: Target,
+};
 
 function TimelineColumn({ label, entries }: { label: string; entries: JourneyEntry[] }) {
   return (
@@ -11,15 +20,18 @@ function TimelineColumn({ label, entries }: { label: string; entries: JourneyEnt
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-muted">{label}</p>
       </Reveal>
       <ol className="relative flex flex-col gap-8 border-l border-line pl-8">
-        {entries.map((entry, i) => (
-          <Reveal as="li" key={entry.title} delay={i * 0.06} className="relative">
-            <span className="absolute -left-[2.55rem] top-1 flex h-5 w-5 items-center justify-center rounded-full border border-line bg-surface text-xs">
-              {entry.emoji}
-            </span>
-            <h3 className="font-display text-lg font-medium text-ink">{entry.title}</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted">{entry.detail}</p>
-          </Reveal>
-        ))}
+        {entries.map((entry, i) => {
+          const Icon = icons[entry.icon];
+          return (
+            <Reveal as="li" key={entry.title} delay={i * 0.06} className="relative">
+              <span className="absolute -left-[2.55rem] top-1 flex h-5 w-5 items-center justify-center rounded-full border border-line bg-surface text-muted">
+                <Icon size={11} />
+              </span>
+              <h3 className="font-display text-lg font-medium text-ink">{entry.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{entry.detail}</p>
+            </Reveal>
+          );
+        })}
       </ol>
     </div>
   );

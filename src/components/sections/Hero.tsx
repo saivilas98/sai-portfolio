@@ -49,7 +49,7 @@ export function Hero() {
             transition={{ duration: 0.6, ease: easeOut, delay: 0.05 }}
             className="font-mono text-sm uppercase tracking-[0.25em] text-muted mb-4"
           >
-            Hi, I'm Sai 👋
+            Hi, I'm Sai
           </motion.p>
 
           <motion.h1

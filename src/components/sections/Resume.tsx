@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { profile, resume } from "../../data/content";
 import { Container } from "../ui/Container";
 import { MagneticButton } from "../ui/MagneticButton";
@@ -10,7 +10,9 @@ export function Resume() {
       <Container>
         <Reveal className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 rounded-[1.75rem] border border-line bg-surface p-7 sm:p-10 md:p-14 items-center">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted mb-4">📄 Resume</p>
+            <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted mb-4">
+              <FileText size={14} /> Resume
+            </p>
             <h3 className="font-display text-3xl font-medium text-ink text-balance">
               Everything above, in one page.
             </h3>

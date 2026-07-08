@@ -29,8 +29,10 @@ export const hero = {
   ],
 };
 
+export type JourneyIcon = "graduation-cap" | "briefcase" | "rocket" | "bar-chart-3" | "target";
+
 export type JourneyEntry = {
-  emoji: string;
+  icon: JourneyIcon;
   title: string;
   detail: string;
 };
@@ -40,39 +42,39 @@ export const journey: { context: string; foundation: JourneyEntry[]; pivot: Jour
     "Not a straight line to Product Management. But every turn taught me something, and all of them point to the same place.",
   foundation: [
     {
-      emoji: "🎓",
+      icon: "graduation-cap",
       title: "IIT Indore · Mechanical Engineering",
       detail: "Built a strong foundation. Just didn't know what I'd build on top of it yet.",
     },
     {
-      emoji: "💼",
+      icon: "briefcase",
       title: "Capgemini · Tech Consulting",
       detail: "First real job. Learned how corporates work, and how slowly they move.",
     },
     {
-      emoji: "💼",
+      icon: "briefcase",
       title: "Deloitte · Tech Consulting",
       detail: "Bigger clients, bigger problems. Still felt like something was missing.",
     },
     {
-      emoji: "🎓",
+      icon: "graduation-cap",
       title: "IIM Calcutta · MBA",
       detail: "Took a deliberate step back. Wanted to find work that actually felt like mine.",
     },
   ],
   pivot: [
     {
-      emoji: "🚀",
+      icon: "rocket",
       title: "Ola Electric · PM Intern",
       detail: "Felt like this was the answer. The reason I came to IIMC in the first place.",
     },
     {
-      emoji: "📊",
+      icon: "bar-chart-3",
       title: "Accordion Partners · Data & Analytics Manager",
       detail: "Where I landed after campus placements. Skilling up, learning, growing, and staying ready.",
     },
     {
-      emoji: "🎯",
+      icon: "target",
       title: "Next Stop · Product Manager",
       detail: "The destination I've been working toward. Time to begin the real journey.",
     },
@@ -222,8 +224,10 @@ export const caseStudy = {
   },
 };
 
+export type ThinkingIcon = "radar" | "search" | "eye" | "compass";
+
 export type ThinkingCategory = {
-  emoji: string;
+  icon: ThinkingIcon;
   title: string;
   description: string;
 };
@@ -232,22 +236,22 @@ export const productThinking: { intro: string; categories: ThinkingCategory[] } 
   intro: "Notes from using products and occasionally being wrong about them. Growing over time.",
   categories: [
     {
-      emoji: "📡",
+      icon: "radar",
       title: "Product Teardowns",
       description: "Picking apart products I use: what's working, what feels off.",
     },
     {
-      emoji: "🔍",
+      icon: "search",
       title: "Feature Critiques",
       description: "Features that caught my attention and made me wonder about the decision behind them.",
     },
     {
-      emoji: "👁",
+      icon: "eye",
       title: "UX Observations",
       description: "Small things noticed while using apps day to day.",
     },
     {
-      emoji: "📐",
+      icon: "compass",
       title: "Strategy Notes",
       description: "How I think about tradeoffs and prioritisation.",
     },
@@ -264,11 +268,11 @@ export const buildLog: { entries: BuildLogEntry[]; shipped: number; total: numbe
     { label: "Run Forge", status: "shipped" },
     { label: "Hydro Forge", status: "shipped" },
     { label: "Money Forge", status: "shipped" },
-    { label: "Product #4", status: "in-progress" },
-    { label: "Product #5", status: "coming" },
+    { label: "Forge Todo", status: "shipped" },
+    { label: "Product #5", status: "in-progress" },
     { label: "Product #6", status: "coming" },
   ],
-  shipped: 3,
+  shipped: 4,
   total: 6,
 };
 
@@ -307,11 +311,11 @@ export const beliefs: Belief[] = [
 export const resume = {
   updated: "Updated June 2026",
   experience: [
-    "🚀 PM Intern · Ola Electric",
-    "📊 Data & Analytics Manager · Accordion Partners",
-    "💼 Tech Consultant · Deloitte · Capgemini",
+    "PM Intern · Ola Electric",
+    "Data & Analytics Manager · Accordion Partners",
+    "Tech Consultant · Deloitte · Capgemini",
   ],
-  education: ["🎓 IIM Calcutta · MBA", "🎓 IIT Indore · B.Tech, Mechanical Engineering"],
+  education: ["IIM Calcutta · MBA", "IIT Indore · B.Tech, Mechanical Engineering"],
 };
 
 export const contact = {

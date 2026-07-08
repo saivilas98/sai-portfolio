@@ -49,7 +49,7 @@ export function Contact() {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-white"
+                className="inline-flex items-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-opacity hover:opacity-90"
               >
                 Email me
                 <ArrowUpRight size={16} />

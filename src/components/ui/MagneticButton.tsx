@@ -40,7 +40,7 @@ export function MagneticButton({
     "inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-300 whitespace-nowrap";
   const styles =
     variant === "primary"
-      ? "bg-ink text-paper hover:bg-white"
+      ? "bg-ink text-paper hover:opacity-90"
       : "bg-transparent text-ink border border-line hover:border-ink";
 
   return (

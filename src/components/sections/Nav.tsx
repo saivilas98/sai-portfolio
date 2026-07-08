@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { nav, profile } from "../../data/content";
 import { useActiveSection } from "../../lib/useActiveSection";
 import { Container } from "../ui/Container";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 const sectionIds = nav.map((item) => item.href.replace("#", ""));
 
@@ -60,22 +61,26 @@ export function Nav() {
           })}
         </nav>
 
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-white"
-        >
-          Let's talk
-        </a>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
 
-        <button
-          type="button"
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          className="md:hidden text-ink"
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          <a
+            href="#contact"
+            className="hidden md:inline-flex items-center rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-opacity hover:opacity-90"
+          >
+            Let's talk
+          </a>
+
+          <button
+            type="button"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            className="md:hidden text-ink"
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </Container>
 
       <AnimatePresence>

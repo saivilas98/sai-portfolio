@@ -4,13 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        paper: "#0A0A0A",
-        surface: "#131313",
-        raised: "#1B1B1B",
-        ink: "#FAFAFA",
-        muted: "#8F8F8F",
-        line: "#242424",
-        invert: "#FAFAFA",
+        paper: "rgb(var(--color-paper) / <alpha-value>)",
+        surface: "rgb(var(--color-surface) / <alpha-value>)",
+        ink: "rgb(var(--color-ink) / <alpha-value>)",
+        muted: "rgb(var(--color-muted) / <alpha-value>)",
+        line: "rgb(var(--color-line) / <alpha-value>)",
       },
       fontFamily: {
         display: ["'Bricolage Grotesque'", "sans-serif"],

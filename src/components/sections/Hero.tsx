@@ -15,7 +15,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(55% 50% at 82% 12%, rgba(250,250,250,0.08), transparent 65%), radial-gradient(45% 40% at 5% 90%, rgba(250,250,250,0.05), transparent 60%)",
+            "radial-gradient(55% 50% at 82% 12%, rgb(var(--glow-rgb) / 0.08), transparent 65%), radial-gradient(45% 40% at 5% 90%, rgb(var(--glow-rgb) / 0.05), transparent 60%)",
         }}
         aria-hidden
       />

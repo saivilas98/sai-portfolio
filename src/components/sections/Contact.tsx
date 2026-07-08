@@ -1,4 +1,4 @@
-import { ArrowUpRight, AtSign, Link2, Mail } from "lucide-react";
+import { ArrowUpRight, AtSign, Link2, Mail, MapPin } from "lucide-react";
 import { contact, profile } from "../../data/content";
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
@@ -78,6 +78,11 @@ export function Contact() {
                 </a>
               ))}
             </div>
+
+            <p className="mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-paper/40">
+              <MapPin size={12} />
+              Currently based in Hyderabad, India
+            </p>
           </Reveal>
         </div>
       </Container>

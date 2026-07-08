@@ -1,0 +1,188 @@
+import { motion } from "framer-motion";
+import { ArrowDown, ArrowUpRight, FileText, Link2, Mail } from "lucide-react";
+import { hero, profile } from "../../data/content";
+import { Container } from "../ui/Container";
+import { MagneticButton } from "../ui/MagneticButton";
+import { easeOut } from "../../lib/motion";
+
+export function Hero() {
+  return (
+    <section
+      id="top"
+      className="relative flex min-h-screen items-center overflow-hidden pt-32 pb-16 grid-texture"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(55% 50% at 82% 12%, rgba(250,250,250,0.08), transparent 65%), radial-gradient(45% 40% at 5% 90%, rgba(250,250,250,0.05), transparent 60%)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-paper"
+        style={{ maskImage: "radial-gradient(120% 100% at 50% 0%, black, transparent)" }}
+        aria-hidden
+      />
+
+      <Container className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut }}
+            className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ink/60 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-ink" />
+            </span>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              {profile.status} &middot; {profile.location}
+            </span>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.05 }}
+            className="font-mono text-sm uppercase tracking-[0.25em] text-muted mb-4"
+          >
+            Hi, I'm Sai 👋
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.1 }}
+            className="font-display text-[2.5rem] leading-[1.08] tracking-tightest text-ink sm:text-6xl lg:text-[4.2rem] text-balance"
+          >
+            {profile.tagline}
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.18 }}
+            className="mt-4 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
+          >
+            {hero.paragraphs[0]}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.24 }}
+            className="mt-6 flex flex-col gap-3 max-w-lg text-[0.95rem] leading-relaxed text-ink/70"
+          >
+            {hero.paragraphs.slice(1).map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.32 }}
+            className="mt-10 flex flex-wrap items-center gap-4"
+          >
+            <MagneticButton href="#work" variant="primary">
+              See the work
+              <ArrowUpRight size={16} />
+            </MagneticButton>
+            <MagneticButton href="#contact" variant="secondary">
+              Get in touch
+            </MagneticButton>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.4 }}
+            className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3"
+          >
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink transition-colors"
+            >
+              <FileText size={14} /> Resume
+            </a>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink transition-colors"
+            >
+              <Link2 size={14} /> LinkedIn
+            </a>
+            <a
+              href={`mailto:${profile.email}`}
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink transition-colors"
+            >
+              <Mail size={14} /> Say hello
+            </a>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: easeOut, delay: 0.15 }}
+          className="relative mx-auto w-full max-w-sm lg:max-w-none"
+        >
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-line bg-surface grayscale">
+            <img
+              src="/profile.jpg"
+              alt={profile.name}
+              className="h-full w-full object-cover"
+            />
+            <div
+              className="absolute inset-0"
+              style={{ boxShadow: "inset 0 0 80px 20px rgba(0,0,0,0.35)" }}
+              aria-hidden
+            />
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.6 }}
+            className="absolute -bottom-6 -left-6 hidden rounded-2xl border border-line bg-surface px-5 py-4 shadow-[0_20px_50px_-25px_rgba(0,0,0,0.8)] sm:block"
+          >
+            <p className="text-2xl font-display font-medium text-ink">3</p>
+            <p className="text-xs text-muted">consumer apps shipped</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.75 }}
+            className="absolute -top-6 -right-4 hidden rounded-2xl border border-line bg-surface px-5 py-4 shadow-[0_20px_50px_-25px_rgba(0,0,0,0.8)] sm:block"
+          >
+            <p className="text-2xl font-display font-medium text-ink">50+</p>
+            <p className="text-xs text-muted">customer conversations</p>
+          </motion.div>
+        </motion.div>
+      </Container>
+
+      <motion.a
+        href="#journey"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1 }}
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted hover:text-ink transition-colors md:flex"
+        aria-label="Scroll to Journey section"
+      >
+        <span className="font-mono text-xs uppercase tracking-[0.2em]">Scroll</span>
+        <motion.span
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowDown size={16} />
+        </motion.span>
+      </motion.a>
+    </section>
+  );
+}

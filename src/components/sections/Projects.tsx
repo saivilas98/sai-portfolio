@@ -76,7 +76,7 @@ export function Projects() {
           index="02"
           eyebrow="Things I've Built"
           title="Three weekends, three shipped products."
-          description="Consumer apps built solo, on the side — each one starting broad and ending narrow, on purpose."
+          description="Consumer apps built solo, on the side, each one starting broad and ending narrow, on purpose."
         />
 
         <div className="mt-16 flex flex-col gap-10">

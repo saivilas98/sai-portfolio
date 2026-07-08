@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUpRight, FileText, Link2, Mail } from "lucide-react";
 import { hero, profile } from "../../data/content";
 import { Container } from "../ui/Container";
 import { MagneticButton } from "../ui/MagneticButton";
+import { MetricBadge } from "../ui/MetricBadge";
 import { easeOut } from "../../lib/motion";
 
 export function Hero() {
@@ -145,25 +146,8 @@ export function Hero() {
             />
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.6 }}
-            className="absolute -bottom-6 -left-6 hidden rounded-2xl border border-line bg-surface px-5 py-4 shadow-[0_20px_50px_-25px_rgba(0,0,0,0.8)] sm:block"
-          >
-            <p className="text-2xl font-display font-medium text-ink">3</p>
-            <p className="text-xs text-muted">consumer apps shipped</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.75 }}
-            className="absolute -top-6 -right-4 hidden rounded-2xl border border-line bg-surface px-5 py-4 shadow-[0_20px_50px_-25px_rgba(0,0,0,0.8)] sm:block"
-          >
-            <p className="text-2xl font-display font-medium text-ink">50+</p>
-            <p className="text-xs text-muted">customer conversations</p>
-          </motion.div>
+          <MetricBadge className="absolute -bottom-6 -left-6" offset={0} revealDelay={0.6} />
+          <MetricBadge className="absolute -top-6 -right-4" offset={2} revealDelay={0.75} />
         </motion.div>
       </Container>
 

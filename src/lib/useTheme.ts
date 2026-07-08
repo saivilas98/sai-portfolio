@@ -5,7 +5,7 @@ export type Theme = "dark" | "light";
 const STORAGE_KEY = "sai-portfolio-theme";
 
 function getInitialTheme(): Theme {
-  if (typeof document === "undefined") return "dark";
+  if (typeof document === "undefined") return "light";
   return document.documentElement.classList.contains("light") ? "light" : "dark";
 }
 

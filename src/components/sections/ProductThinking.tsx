@@ -10,7 +10,7 @@ export function ProductThinking() {
         <SectionHeading
           index="04"
           eyebrow="Work in progress"
-          title="🧠 Product Thinking"
+          title="Product Thinking"
           description={productThinking.intro}
         />
 

@@ -7,7 +7,7 @@ export function CaseStudy() {
   return (
     <section id="case-study" className="py-28 md:py-36 border-t border-line">
       <Container>
-        <SectionHeading index="03" eyebrow={caseStudy.meta} title="🚀 Ola Electric — Case Study" />
+        <SectionHeading index="03" eyebrow={caseStudy.meta} title="Ola Electric · Case Study" />
 
         <Reveal delay={0.05} className="mt-10 rounded-[1.75rem] border border-line bg-surface p-7 sm:p-10 md:p-14">
           <p className="font-display text-2xl md:text-3xl font-medium leading-snug text-ink text-balance max-w-3xl">

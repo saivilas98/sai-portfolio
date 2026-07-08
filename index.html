@@ -4,29 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="theme-color" content="#FFFFFF" />
     <script>
       (function () {
         try {
           var saved = localStorage.getItem("sai-portfolio-theme");
-          if (saved === "light") {
+          if (saved !== "dark") {
             document.documentElement.classList.add("light");
           }
-        } catch (e) {}
+        } catch (e) {
+          document.documentElement.classList.add("light");
+        }
       })();
     </script>
 
-    <title>Sai Vilas Gurram — Product Manager</title>
-    <meta name="description" content="Sai Vilas Gurram — product manager drawn to small, quietly important problems. PM internship at Ola Electric, Data & Analytics Manager at Accordion Partners, and three shipped consumer apps." />
+    <title>Sai Vilas Gurram - Product Manager</title>
+    <meta name="description" content="Sai Vilas Gurram - product manager drawn to small, quietly important problems. PM internship at Ola Electric, Data & Analytics Manager at Accordion Partners, and three shipped consumer apps." />
     <meta name="author" content="Sai Vilas Gurram" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Sai Vilas Gurram — Product Manager" />
+    <meta property="og:title" content="Sai Vilas Gurram - Product Manager" />
     <meta property="og:description" content="Drawn to small problems - simple enough to solve, easy enough to ignore, quietly important if you actually do something about them." />
     <meta property="og:image" content="/og-image.svg" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sai Vilas Gurram — Product Manager" />
+    <meta name="twitter:title" content="Sai Vilas Gurram - Product Manager" />
     <meta name="twitter:description" content="Drawn to small problems - simple enough to solve, easy enough to ignore, quietly important if you actually do something about them." />
     <meta name="twitter:image" content="/og-image.svg" />
 

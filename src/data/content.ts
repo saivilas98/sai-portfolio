@@ -12,12 +12,21 @@ export const profile = {
     "https://drive.google.com/file/d/1vKCkQwqbsCUgAeoc3tGdfXmC7jo75ywl/view?usp=sharing",
 };
 
+export type HeroMetric = { value: string; label: string };
+
+export const heroMetrics: HeroMetric[] = [
+  { value: "3", label: "consumer apps shipped" },
+  { value: "50+", label: "customer conversations" },
+  { value: "15+", label: "PRDs shipped at Ola" },
+  { value: "6", label: "products planned" },
+];
+
 export const hero = {
   paragraphs: [
     "simple enough to solve, easy enough to ignore, quietly important if you actually do something about them.",
-    "Weekdays: Data Analytics Manager at Accordion Partners — helping clients make sense of their data, one dashboard at a time.",
+    "Weekdays: Data Analytics Manager at Accordion Partners, helping clients make sense of their data, one dashboard at a time.",
     "Weekends: shipping consumer apps, because sitting on ideas feels worse than building them.",
-    "A while back I did a PM internship at Ola Electric — benchmarking competitors, sitting with real customers, understanding where things quietly broke down. That process felt completely natural. That told me something.",
+    "A while back I did a PM internship at Ola Electric, benchmarking competitors, sitting with real customers, understanding where things quietly broke down. That process felt completely natural. That told me something.",
   ],
 };
 
@@ -29,7 +38,7 @@ export type JourneyEntry = {
 
 export const journey: { context: string; foundation: JourneyEntry[]; pivot: JourneyEntry[] } = {
   context:
-    "Not a straight line to Product Management. But every turn taught me something — and all of them point to the same place.",
+    "Not a straight line to Product Management. But every turn taught me something, and all of them point to the same place.",
   foundation: [
     {
       emoji: "🎓",
@@ -39,7 +48,7 @@ export const journey: { context: string; foundation: JourneyEntry[]; pivot: Jour
     {
       emoji: "💼",
       title: "Capgemini · Tech Consulting",
-      detail: "First real job. Learned how corporates work — and how slowly they move.",
+      detail: "First real job. Learned how corporates work, and how slowly they move.",
     },
     {
       emoji: "💼",
@@ -61,7 +70,7 @@ export const journey: { context: string; foundation: JourneyEntry[]; pivot: Jour
     {
       emoji: "📊",
       title: "Accordion Partners · Data & Analytics Manager",
-      detail: "Where I landed after campus placements. Skilling up, learning, growing — and staying ready.",
+      detail: "Where I landed after campus placements. Skilling up, learning, growing, and staying ready.",
     },
     {
       emoji: "🎯",
@@ -94,12 +103,12 @@ export const projects: Project[] = [
     id: "runforge",
     emoji: "🏃",
     name: "Run Forge",
-    tagline: "A daily activity tracker for every kind of movement — not just running.",
+    tagline: "A daily activity tracker for every kind of movement, not just running.",
     toggleLabel: "The idea · What I cut · What I learned",
     detail: {
       eyebrow: "The idea",
       paragraphs: [
-        "Started as a running app. But the more I thought about it, the more I realised the real problem wasn't about running — it was about staying active, consistently, whatever form that takes. Gym on Monday, run on Wednesday, dance on Friday — it all counts.",
+        "Started as a running app. But the more I thought about it, the more I realised the real problem wasn't about running: it was about staying active, consistently, whatever form that takes. Gym on Monday, run on Wednesday, dance on Friday: it all counts.",
         "So Run Forge became a daily activity tracker. One streak, one calendar, one place.",
       ],
       cut: "Sport-specific stats · Social features · Complex dashboards",
@@ -142,8 +151,8 @@ export const projects: Project[] = [
     detail: {
       eyebrow: "The problem",
       paragraphs: [
-        "Finance apps show charts. Most people just want their remaining balance — clearly, quickly. That's weirdly hard to do with existing tools.",
-        "Said no to: Categories · Investment tracking · Bill splitting — all reasonable, all for a different product.",
+        "Finance apps show charts. Most people just want their remaining balance, clearly and quickly. That's weirdly hard to do with existing tools.",
+        "Said no to: Categories · Investment tracking · Bill splitting, all reasonable, all for a different product.",
       ],
       kept: "Expense logging (UPI / Card / Cash) · Salary & EMI tracking · Remaining balance always visible · Calendar history",
     },
@@ -163,12 +172,12 @@ export const projectLearnings: Record<string, string> = {
 };
 
 export const caseStudy = {
-  eyebrow: "Ola Electric — Case Study",
+  eyebrow: "Ola Electric · Case Study",
   meta: "Vehicle Software Product Team · PM Internship · Summer 2024",
   hook: "Came in knowing nothing about EVs. Left knowing I wanted to do this full time.",
   context: {
     heading: "The context",
-    body: "Joined the Vehicle Software team — responsible for everything a rider sees on the scooter's HMI. MoveOS features, UI/UX, OTA flows, and upcoming features for Ola Bike and Ola Auto.",
+    body: "Joined the Vehicle Software team, responsible for everything a rider sees on the scooter's HMI, MoveOS features, UI/UX, OTA flows, and upcoming features for Ola Bike and Ola Auto.",
   },
   workedOn: [
     "HMI themes and Indian display mood",
@@ -178,7 +187,7 @@ export const caseStudy = {
     "Traction control & eco mode nudges PRDs",
     "Charger fault handling",
     "Competitive benchmarking across feature areas",
-    "Customer research — Ola owners, Care+ calls, Auto driver interviews",
+    "Customer research: Ola owners, Care+ calls, Auto driver interviews",
   ],
   enjoyed: {
     heading: "The part I enjoyed most",
@@ -193,7 +202,7 @@ export const caseStudy = {
   moment: {
     heading: "A moment that stuck",
     quote:
-      "An auto driver told me he never used reverse mode — he thought it would damage the motor. The feature existed. The trust didn't. That one conversation changed how I think about shipping.",
+      "An auto driver told me he never used reverse mode: he thought it would damage the motor. The feature existed. The trust didn't. That one conversation changed how I think about shipping.",
   },
 };
 
@@ -209,7 +218,7 @@ export const productThinking: { intro: string; categories: ThinkingCategory[] } 
     {
       emoji: "📡",
       title: "Product Teardowns",
-      description: "Picking apart products I use — what's working, what feels off.",
+      description: "Picking apart products I use: what's working, what feels off.",
     },
     {
       emoji: "🔍",
@@ -286,7 +295,7 @@ export const resume = {
     "📊 Data & Analytics Manager · Accordion Partners",
     "💼 Tech Consultant · Deloitte · Capgemini",
   ],
-  education: ["🎓 IIM Calcutta — MBA", "🎓 IIT Indore — B.Tech, Mechanical Engineering"],
+  education: ["🎓 IIM Calcutta · MBA", "🎓 IIT Indore · B.Tech, Mechanical Engineering"],
 };
 
 export const contact = {

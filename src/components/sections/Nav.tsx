@@ -38,9 +38,9 @@ export function Nav() {
       <Container className="flex h-20 items-center justify-between">
         <a
           href="#top"
-          className="font-display text-lg font-medium tracking-tight text-ink"
+          className="font-display text-base sm:text-lg font-medium tracking-tight text-ink whitespace-nowrap"
         >
-          {profile.shortName}<span className="text-muted">.</span>
+          {profile.name}
         </a>
 
         <nav className="hidden md:flex items-center gap-8">

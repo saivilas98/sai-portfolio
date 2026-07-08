@@ -1,6 +1,5 @@
 export const profile = {
   name: "Sai Vilas Gurram",
-  shortName: "Sai",
   role: "Product Manager",
   location: "Hyderabad · Bangalore · Gurgaon / Remote",
   status: "Open to PM Roles",
@@ -159,12 +158,33 @@ export const projects: Project[] = [
     ],
     url: "https://forge-money-tau.vercel.app/",
   },
+  {
+    id: "forgetodo",
+    name: "Forge Todo",
+    tagline: "A daily execution system built to help people finish what actually matters.",
+    toggleLabel: "The idea · What I cut · What I learned",
+    detail: {
+      eyebrow: "The idea",
+      paragraphs: [
+        "Todo apps aren't hard to use: they're hard to stick with. Most people begin with good intentions, create long lists of tasks, and gradually stop opening the app because it becomes a reminder of everything they haven't completed. The real challenge isn't organizing tasks: it's deciding what truly deserves attention today.",
+        "Forge Todo was designed as an execution-first planner, not another feature-heavy task manager. Every week starts with intentional planning, while every day is deliberately limited to just three meaningful priorities. When unexpected work appears, users can seamlessly replace a planned task and move it to another day instead of feeling like they've failed.",
+      ],
+      kept: "Weekly planning · Daily 3-priority limit · Flexible task rescheduling",
+    },
+    images: [
+      { src: "/projects/forgetodo/1.png", alt: "Forge Todo weekly planning view" },
+      { src: "/projects/forgetodo/2.png", alt: "Forge Todo daily three-priority view" },
+      { src: "/projects/forgetodo/3.png", alt: "Forge Todo monthly consistency calendar" },
+    ],
+    url: "https://todo-app-one-iota-15.vercel.app",
+  },
 ];
 
 export const projectLearnings: Record<string, string> = {
   runforge: "The hardest part wasn't building the tracker. It was resisting the urge to make it sport-specific.",
   hydroforge: "The screen after forgetting to drink for six hours matters more than any other screen in the app.",
   moneyforge: "Saying no to good ideas is harder than it sounds.",
+  forgetodo: "This keeps planning flexible without sacrificing consistency.",
 };
 
 export const caseStudy = {

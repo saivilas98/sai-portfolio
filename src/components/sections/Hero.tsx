@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, FileText, Link2, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, FileText, GraduationCap, Link2, Mail } from "lucide-react";
 import { hero, profile } from "../../data/content";
 import { Container } from "../ui/Container";
 import { MagneticButton } from "../ui/MagneticButton";
@@ -40,6 +40,20 @@ export function Hero() {
             </span>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
               {profile.status} &middot; {profile.location}
+            </span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.02 }}
+            className="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2"
+          >
+            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted">
+              <GraduationCap size={13} /> IIT Indore
+            </span>
+            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted">
+              <GraduationCap size={13} /> IIM Calcutta
             </span>
           </motion.div>
 

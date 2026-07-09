@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, FileText, GraduationCap, Link2, Mail } from "lucide-react";
-import { hero, profile } from "../../data/content";
+import { ArrowDown, ArrowUpRight, FileText, Link2, Mail } from "lucide-react";
+import { hero, heroEducation, profile } from "../../data/content";
 import { Container } from "../ui/Container";
+import { EducationChip } from "../ui/EducationChip";
 import { MagneticButton } from "../ui/MagneticButton";
 import { MetricBadge } from "../ui/MetricBadge";
 import { easeOut } from "../../lib/motion";
@@ -28,11 +29,64 @@ export function Hero() {
 
       <Container className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
         <div>
-          <motion.div
+          <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easeOut }}
-            className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2"
+            className="font-mono text-sm uppercase tracking-[0.25em] text-muted mb-4"
+          >
+            Hi, I'm Sai
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.08 }}
+            className="font-display text-[2.5rem] leading-[1.08] tracking-tightest text-ink sm:text-6xl lg:text-[4.2rem] text-balance"
+          >
+            {profile.tagline}
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.16 }}
+            className="mt-4 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
+          >
+            {hero.paragraphs[0]}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.22 }}
+            className="mt-6 flex flex-col gap-3 max-w-lg text-[0.95rem] leading-relaxed text-ink/70"
+          >
+            {hero.paragraphs.slice(1).map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.28 }}
+            className="mt-12 flex flex-wrap items-center gap-3"
+          >
+            {heroEducation.map((entry) => (
+              <EducationChip
+                key={entry.institution}
+                institution={entry.institution}
+                detail={entry.detail}
+              />
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeOut, delay: 0.34 }}
+            className="mt-5 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2"
           >
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ink/60 opacity-75" />
@@ -44,61 +98,9 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.02 }}
-            className="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2"
-          >
-            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted">
-              <GraduationCap size={13} /> IIT Indore
-            </span>
-            <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted">
-              <GraduationCap size={13} /> IIM Calcutta
-            </span>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.05 }}
-            className="font-mono text-sm uppercase tracking-[0.25em] text-muted mb-4"
-          >
-            Hi, I'm Sai
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.1 }}
-            className="font-display text-[2.5rem] leading-[1.08] tracking-tightest text-ink sm:text-6xl lg:text-[4.2rem] text-balance"
-          >
-            {profile.tagline}
-          </motion.h1>
-
-          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.18 }}
-            className="mt-4 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
-          >
-            {hero.paragraphs[0]}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.24 }}
-            className="mt-6 flex flex-col gap-3 max-w-lg text-[0.95rem] leading-relaxed text-ink/70"
-          >
-            {hero.paragraphs.slice(1).map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.32 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.4 }}
             className="mt-10 flex flex-wrap items-center gap-4"
           >
             <MagneticButton href="#work" variant="primary">
@@ -113,7 +115,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.4 }}
+            transition={{ duration: 0.75, ease: easeOut, delay: 0.46 }}
             className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3"
           >
             <a

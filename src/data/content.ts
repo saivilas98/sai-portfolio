@@ -29,6 +29,13 @@ export const hero = {
   ],
 };
 
+export type HeroEducationEntry = { institution: string; detail: string };
+
+export const heroEducation: HeroEducationEntry[] = [
+  { institution: "IIT Indore", detail: "B.Tech, Mechanical Engineering | 2015 – 2019" },
+  { institution: "IIM Calcutta", detail: "MBA | 2023 – 2025" },
+];
+
 export type JourneyIcon = "graduation-cap" | "briefcase" | "rocket" | "bar-chart-3" | "target";
 
 export type JourneyEntry = {

@@ -33,7 +33,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easeOut }}
-            className="font-mono text-sm uppercase tracking-[0.25em] text-muted mb-4"
+            className="font-mono text-base uppercase tracking-[0.25em] text-muted mb-5"
           >
             Hi, I'm Sai
           </motion.p>
@@ -42,7 +42,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: easeOut, delay: 0.08 }}
-            className="font-display text-[2.5rem] leading-[1.08] tracking-tightest text-ink sm:text-6xl lg:text-[4.2rem] text-balance"
+            className="font-display text-[2.2rem] leading-[1.15] tracking-tightest text-ink sm:text-[3.3rem] lg:text-[3.7rem] text-balance"
           >
             {profile.tagline}
           </motion.h1>
@@ -51,19 +51,21 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: easeOut, delay: 0.16 }}
-            className="mt-4 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
+            className="mt-5 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
           >
-            {hero.paragraphs[0]}
+            {hero.lead}
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: easeOut, delay: 0.22 }}
-            className="mt-6 flex flex-col gap-3 max-w-lg text-[0.95rem] leading-relaxed text-ink/70"
+            className="mt-6 flex flex-col gap-2.5 max-w-lg text-[0.95rem] leading-relaxed text-ink/70"
           >
-            {hero.paragraphs.slice(1).map((p) => (
-              <p key={p}>{p}</p>
+            {hero.timeline.map((entry) => (
+              <p key={entry.label}>
+                <span className="font-medium text-ink">{entry.label}:</span> {entry.text}
+              </p>
             ))}
           </motion.div>
 
@@ -104,8 +106,11 @@ export function Hero() {
             className="mt-10 flex flex-wrap items-center gap-4"
           >
             <MagneticButton href="#work" variant="primary">
-              See the work
-              <ArrowUpRight size={16} />
+              Explore my work
+              <ArrowUpRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
             </MagneticButton>
             <MagneticButton href="#contact" variant="secondary">
               Get in touch

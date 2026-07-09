@@ -20,13 +20,24 @@ export const heroMetrics: HeroMetric[] = [
   { value: "6", label: "products planned" },
 ];
 
+export type HeroTimelineEntry = { label: string; text: string };
+
 export const hero = {
-  paragraphs: [
-    "simple enough to solve, easy enough to ignore, quietly important if you actually do something about them.",
-    "Weekdays: Data Analytics Manager at Accordion Partners, helping clients make sense of their data, one dashboard at a time.",
-    "Weekends: shipping consumer apps, because sitting on ideas feels worse than building them.",
-    "A while back I did a PM internship at Ola Electric, benchmarking competitors, sitting with real customers, understanding where things quietly broke down. That process felt completely natural. That told me something.",
-  ],
+  lead: "simple enough to solve, easy enough to ignore, quietly important if you actually do something about them.",
+  timeline: [
+    {
+      label: "Weekdays",
+      text: "Data Analytics Manager at Accordion Partners — one dashboard at a time.",
+    },
+    {
+      label: "Weekends",
+      text: "Shipping consumer apps. Sitting on ideas feels worse than building them.",
+    },
+    {
+      label: "Previously",
+      text: "PM internship at Ola Electric — benchmarking competitors, talking to real customers, watching where things quietly broke. Felt completely natural.",
+    },
+  ] as HeroTimelineEntry[],
 };
 
 export type HeroEducationEntry = { institution: string; detail: string };

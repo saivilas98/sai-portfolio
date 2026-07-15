@@ -1,50 +1,54 @@
 import { MotionConfig } from "framer-motion";
-import { Beliefs } from "./components/sections/Beliefs";
-import { BuildLog } from "./components/sections/BuildLog";
-import { CaseStudy } from "./components/sections/CaseStudy";
-import { Contact } from "./components/sections/Contact";
-import { Footer } from "./components/sections/Footer";
-import { Hero } from "./components/sections/Hero";
-import { Journey } from "./components/sections/Journey";
-import { Nav } from "./components/sections/Nav";
-import { ProductThinking } from "./components/sections/ProductThinking";
-import { Projects } from "./components/sections/Projects";
-import { Resume } from "./components/sections/Resume";
-import { Marquee } from "./components/ui/Marquee";
+import { Cover } from "./components/chapters/Cover";
+import { WhoAmI } from "./components/chapters/WhoAmI";
+import { Journey } from "./components/chapters/Journey";
+import { CurrentlyBuilding } from "./components/chapters/CurrentlyBuilding";
+import { Projects } from "./components/chapters/Projects";
+import { CaseStudy } from "./components/chapters/CaseStudy";
+import { Notebook } from "./components/chapters/Notebook";
+import { Contact } from "./components/chapters/Contact";
+import { ChapterNav, type Chapter } from "./components/ui/ChapterNav";
+import { MobileIndex } from "./components/ui/MobileIndex";
+import { PenCursor } from "./components/ui/PenCursor";
+import { IntroReveal } from "./components/ui/IntroReveal";
+import { ScrollRibbon } from "./components/ui/ScrollRibbon";
 
-const marqueeItems = [
-  "PRODUCT MANAGER",
-  "BUILDS ON WEEKENDS",
-  "IIT INDORE",
-  "IIM CALCUTTA",
-  "OLA ELECTRIC",
-  "SHIPS QUIETLY",
+const chapters: Chapter[] = [
+  { id: "cover", label: "Cover", no: "01" },
+  { id: "who", label: "Who Am I", no: "02" },
+  { id: "journey", label: "Journey", no: "03" },
+  { id: "building", label: "Building", no: "04" },
+  { id: "projects", label: "Projects", no: "05" },
+  { id: "case-study", label: "Case Study", no: "06" },
+  { id: "notebook", label: "Notebook", no: "07" },
+  { id: "contact", label: "Contact", no: "08" },
 ];
 
 function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="relative grain">
+        <IntroReveal />
+        <PenCursor />
+        <ScrollRibbon />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-paper"
         >
           Skip to content
         </a>
-        <Nav />
+        <ChapterNav chapters={chapters} />
+        <MobileIndex chapters={chapters} />
         <main id="main-content">
-          <Hero />
-          <Marquee items={marqueeItems} />
+          <Cover />
+          <WhoAmI />
           <Journey />
+          <CurrentlyBuilding />
           <Projects />
           <CaseStudy />
-          <ProductThinking />
-          <BuildLog />
-          <Beliefs />
-          <Resume />
+          <Notebook />
           <Contact />
         </main>
-        <Footer />
       </div>
     </MotionConfig>
   );

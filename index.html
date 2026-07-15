@@ -4,25 +4,37 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FAF6ED" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("sai-portfolio-theme");
+          if (saved !== "dark") {
+            document.documentElement.classList.add("light");
+          }
+        } catch (e) {
+          document.documentElement.classList.add("light");
+        }
+      })();
+    </script>
 
-    <title>Sai Vilas Gurram — Notebook</title>
-    <meta name="description" content="Sai Vilas Gurram — a product manager's notebook. Sketches, notes, and shipped ideas from someone drawn to small, quietly important problems." />
+    <title>Sai PM Portfolio</title>
+    <meta name="description" content="Sai Vilas Gurram - product manager drawn to small, quietly important problems. PM internship at Ola Electric, Data & Analytics Manager at Accordion Partners, and three shipped consumer apps." />
     <meta name="author" content="Sai Vilas Gurram" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Sai Vilas Gurram — Notebook" />
-    <meta property="og:description" content="A product manager's notebook — sketches, notes, and shipped ideas." />
+    <meta property="og:title" content="Sai PM Portfolio" />
+    <meta property="og:description" content="Drawn to small problems - simple enough to solve, easy enough to ignore, quietly important if you actually do something about them." />
     <meta property="og:image" content="/og-image.svg" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sai Vilas Gurram — Notebook" />
-    <meta name="twitter:description" content="A product manager's notebook — sketches, notes, and shipped ideas." />
+    <meta name="twitter:title" content="Sai PM Portfolio" />
+    <meta name="twitter:description" content="Drawn to small problems - simple enough to solve, easy enough to ignore, quietly important if you actually do something about them." />
     <meta name="twitter:image" content="/og-image.svg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Architects+Daughter&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>

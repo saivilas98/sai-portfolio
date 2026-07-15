@@ -11,6 +11,15 @@ export const profile = {
     "https://drive.google.com/file/d/1vKCkQwqbsCUgAeoc3tGdfXmC7jo75ywl/view?usp=sharing",
 };
 
+export type HeroMetric = { value: string; label: string };
+
+export const heroMetrics: HeroMetric[] = [
+  { value: "3", label: "consumer apps shipped" },
+  { value: "50+", label: "customer conversations" },
+  { value: "15+", label: "PRDs shipped at Ola" },
+  { value: "6", label: "products planned" },
+];
+
 export type HeroTimelineEntry = { label: string; text: string };
 
 export const hero = {

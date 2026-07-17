@@ -2,20 +2,19 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 /**
- * Two-part cursor for precise pointers: a dot that tracks exactly and a
- * trailing ring that breathes wider over anything interactive.
- * Touch devices and reduced-motion users keep their native cursor.
+ * A single minimal ring that trails the pointer and tightens slightly over
+ * interactive elements. Touch devices and reduced-motion users keep the
+ * native cursor.
  */
 export function Cursor() {
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [pressed, setPressed] = useState(false);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const ringX = useSpring(x, { stiffness: 320, damping: 28, mass: 0.6 });
-  const ringY = useSpring(y, { stiffness: 320, damping: 28, mass: 0.6 });
+  const springX = useSpring(x, { stiffness: 420, damping: 32, mass: 0.4 });
+  const springY = useSpring(y, { stiffness: 420, damping: 32, mass: 0.4 });
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)").matches;
@@ -32,21 +31,15 @@ export function Cursor() {
       const target = e.target as Element | null;
       setHovering(Boolean(target?.closest("a, button, [data-cursor]")));
     };
-    const onDown = () => setPressed(true);
-    const onUp = () => setPressed(false);
     const onLeave = () => setVisible(false);
     const onEnter = () => setVisible(true);
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointerup", onUp);
     document.documentElement.addEventListener("pointerleave", onLeave);
     document.documentElement.addEventListener("pointerenter", onEnter);
     return () => {
       document.documentElement.classList.remove("has-cursor");
       window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointerup", onUp);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       document.documentElement.removeEventListener("pointerenter", onEnter);
     };
@@ -57,25 +50,15 @@ export function Cursor() {
   return (
     <motion.div
       animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: 0.2 }}
       className="pointer-events-none fixed inset-0 z-[80]"
       aria-hidden
     >
-      <motion.div style={{ x: ringX, y: ringY }} className="absolute left-0 top-0">
+      <motion.div style={{ x: springX, y: springY }} className="absolute left-0 top-0">
         <motion.div
-          animate={{
-            scale: pressed ? 0.75 : hovering ? 1.9 : 1,
-            opacity: hovering ? 0.9 : 0.55,
-          }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent"
-        />
-      </motion.div>
-      <motion.div style={{ x, y }} className="absolute left-0 top-0">
-        <motion.div
-          animate={{ scale: hovering ? 0.5 : 1 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent"
+          animate={{ scale: hovering ? 0.6 : 1 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent/70"
         />
       </motion.div>
     </motion.div>

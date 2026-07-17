@@ -225,19 +225,29 @@ export function Hero({ started }: { started: boolean }) {
 
         <motion.div variants={fadeUp} className="border-t border-line">
           <Container className="grid grid-cols-2 md:grid-cols-4">
-            {heroMetrics.map((metric, i) => (
-              <div
-                key={metric.label}
-                className={`flex flex-col gap-1.5 py-8 pr-4 ${i > 0 ? "border-l border-line pl-6 md:pl-10" : ""} ${i === 2 ? "max-md:border-l-0 max-md:pl-0 max-md:border-t max-md:border-line" : ""} ${i === 3 ? "max-md:border-t max-md:border-line" : ""}`}
-              >
-                <span className="font-display text-3xl font-medium text-ink md:text-4xl">
-                  <CountUp value={metric.value} />
-                </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
-                  {metric.label}
-                </span>
-              </div>
-            ))}
+            {heroMetrics.map((metric, i) => {
+              // 2-col mobile grid: the right column carries a left rule, the
+              // second row carries a top rule. 4-col desktop grid: every
+              // cell but the first carries a left rule and no top rule.
+              const onRightCol = i % 2 === 1;
+              const onSecondRow = i >= 2;
+              const border = [
+                onRightCol ? "border-l border-line pl-6" : "pl-0",
+                onSecondRow ? "border-t border-line md:border-t-0" : "",
+                i > 0 ? "md:border-l md:border-line md:pl-10" : "md:border-l-0 md:pl-0",
+              ].join(" ");
+
+              return (
+                <div key={metric.label} className={`flex flex-col gap-1.5 py-8 pr-4 ${border}`}>
+                  <span className="font-display text-3xl font-medium text-ink md:text-4xl">
+                    <CountUp value={metric.value} />
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
+                    {metric.label}
+                  </span>
+                </div>
+              );
+            })}
           </Container>
         </motion.div>
       </motion.div>

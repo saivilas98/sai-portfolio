@@ -6,7 +6,11 @@ import { useInView, useReducedMotion } from "framer-motion";
  * the first time it scrolls into view.
  */
 export function CountUp({ value, duration = 1100 }: { value: string; duration?: number }) {
+  // `value.match(...)` returns a fresh array identity every render, so the
+  // effect keys off the parsed primitives below — never the match itself —
+  // or a re-render anywhere upstream would restart the count from zero.
   const match = value.match(/^(\d+)(.*)$/);
+  const hasMatch = Boolean(match);
   const target = match ? parseInt(match[1], 10) : 0;
   const suffix = match ? match[2] : "";
 
@@ -16,7 +20,7 @@ export function CountUp({ value, duration = 1100 }: { value: string; duration?: 
   const [n, setN] = useState(0);
 
   useEffect(() => {
-    if (!inView || !match) return;
+    if (!inView || !hasMatch) return;
     if (prefersReducedMotion) {
       setN(target);
       return;
@@ -30,9 +34,9 @@ export function CountUp({ value, duration = 1100 }: { value: string; duration?: 
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, match, target, duration, prefersReducedMotion]);
+  }, [inView, hasMatch, target, duration, prefersReducedMotion]);
 
-  if (!match) return <span ref={ref}>{value}</span>;
+  if (!hasMatch) return <span ref={ref}>{value}</span>;
 
   return (
     <span ref={ref} className="tabular-nums">

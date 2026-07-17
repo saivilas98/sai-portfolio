@@ -1,183 +1,253 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowDown, ArrowUpRight, FileText, Link2, Mail } from "lucide-react";
-import { hero, heroEducation, profile } from "../../data/content";
+import { hero, heroEducation, heroMetrics, profile } from "../../data/content";
 import { Container } from "../ui/Container";
+import { CountUp } from "../ui/CountUp";
 import { EducationChip } from "../ui/EducationChip";
 import { MagneticButton } from "../ui/MagneticButton";
-import { MetricBadge } from "../ui/MetricBadge";
-import { easeOut } from "../../lib/motion";
+import { easeOut, fadeUp, lineRise, stagger } from "../../lib/motion";
 
-export function Hero() {
+function MaskedHeadline({ text }: { text: string }) {
+  const words = text.split(" ");
   return (
-    <section
-      id="top"
-      className="relative flex min-h-screen items-center overflow-hidden pt-32 pb-16 grid-texture"
+    <motion.h1
+      variants={stagger(0.06)}
+      className="font-display text-[2.6rem] leading-[1.05] tracking-tightest text-ink sm:text-[3.6rem] lg:text-[4.4rem] xl:text-[5rem]"
     >
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(55% 50% at 82% 12%, rgb(var(--glow-rgb) / 0.08), transparent 65%), radial-gradient(45% 40% at 5% 90%, rgb(var(--glow-rgb) / 0.05), transparent 60%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-paper"
-        style={{ maskImage: "radial-gradient(120% 100% at 50% 0%, black, transparent)" }}
-        aria-hidden
-      />
+      {words.map((word, i) => (
+        <span key={`${word}-${i}`}>
+          <span className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom">
+            <motion.span variants={lineRise} className="inline-block will-change-transform">
+              {word}
+            </motion.span>
+          </span>
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </motion.h1>
+  );
+}
 
-      <Container className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
-        <div>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut }}
-            className="font-mono text-base uppercase tracking-[0.25em] text-muted mb-5"
-          >
-            Hi, I'm Sai
-          </motion.p>
+/** Warm stage light that drifts toward the pointer. */
+function Spotlight() {
+  const x = useMotionValue(-600);
+  const y = useMotionValue(-600);
+  const sx = useSpring(x, { stiffness: 40, damping: 18, mass: 0.8 });
+  const sy = useSpring(y, { stiffness: 40, damping: 18, mass: 0.8 });
+  const prefersReducedMotion = useReducedMotion();
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.08 }}
-            className="font-display text-[2.2rem] leading-[1.15] tracking-tightest text-ink sm:text-[3.3rem] lg:text-[3.7rem] text-balance"
-          >
-            {profile.tagline}
-          </motion.h1>
+  useEffect(() => {
+    x.set(window.innerWidth * 0.68);
+    y.set(window.innerHeight * 0.28);
+    if (prefersReducedMotion || !window.matchMedia("(pointer: fine)").matches) return;
+    const onMove = (e: PointerEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [x, y, prefersReducedMotion]);
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.16 }}
-            className="mt-5 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
-          >
-            {hero.lead}
-          </motion.p>
+  return (
+    <motion.div
+      style={{ x: sx, y: sy }}
+      className="pointer-events-none absolute left-0 top-0 -z-10 h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+      aria-hidden
+    >
+      <div className="h-full w-full rounded-full bg-[radial-gradient(circle,rgb(var(--color-accent)/0.09),transparent_62%)]" />
+    </motion.div>
+  );
+}
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.22 }}
-            className="mt-6 flex flex-col gap-2.5 max-w-lg text-[0.95rem] leading-relaxed text-ink/70"
-          >
-            {hero.timeline.map((entry) => (
-              <p key={entry.label}>
-                <span className="font-medium text-ink">{entry.label}:</span> {entry.text}
-              </p>
-            ))}
-          </motion.div>
+export function Hero({ started }: { started: boolean }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: portraitRef,
+    offset: ["start end", "end start"],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [26, -26]);
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.28 }}
-            className="mt-12 flex flex-wrap items-center gap-3"
-          >
-            {heroEducation.map((entry) => (
-              <EducationChip
-                key={entry.institution}
-                institution={entry.institution}
-                detail={entry.detail}
-              />
-            ))}
-          </motion.div>
+  // The camera pulls away: hero content recedes and dims as you leave it.
+  const { scrollYProgress: exitProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const exitY = useTransform(exitProgress, [0, 1], [0, 90]);
+  const exitOpacity = useTransform(exitProgress, [0, 0.85], [1, 0.15]);
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeOut, delay: 0.34 }}
-            className="mt-5 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ink/60 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-ink" />
-            </span>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              {profile.status} &middot; {profile.location}
-            </span>
-          </motion.div>
+  return (
+    <section ref={sectionRef} id="top" className="relative overflow-hidden">
+      <Spotlight />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.4 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
-          >
-            <MagneticButton href="#work" variant="primary">
-              Explore my work
-              <ArrowUpRight
-                size={16}
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </MagneticButton>
-            <MagneticButton href="#contact" variant="secondary">
-              Get in touch
-            </MagneticButton>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.75, ease: easeOut, delay: 0.46 }}
-            className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3"
-          >
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink transition-colors"
+      <motion.div
+        variants={stagger(0.09, 0.05)}
+        initial="hidden"
+        animate={started ? "show" : "hidden"}
+        style={prefersReducedMotion ? undefined : { y: exitY, opacity: exitOpacity }}
+      >
+        <Container className="grid min-h-screen grid-cols-1 items-center gap-14 pt-32 pb-14 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <motion.p
+              variants={fadeUp}
+              className="mb-6 font-mono text-sm uppercase tracking-[0.3em] text-accent sm:text-base"
             >
-              <FileText size={14} /> Resume
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink transition-colors"
-            >
-              <Link2 size={14} /> LinkedIn
-            </a>
-            <a
-              href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted hover:text-ink transition-colors"
-            >
-              <Mail size={14} /> Say hello
-            </a>
-          </motion.div>
-        </div>
+              Hi, I'm Sai
+            </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: easeOut, delay: 0.15 }}
-          className="relative mx-auto w-full max-w-sm lg:max-w-none"
-        >
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-line bg-surface grayscale">
-            <img
-              src="/profile.jpg"
-              alt={profile.name}
-              className="h-full w-full object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ boxShadow: "inset 0 0 80px 20px rgba(0,0,0,0.35)" }}
-              aria-hidden
-            />
+            <MaskedHeadline text={profile.tagline} />
+
+            <motion.p
+              variants={fadeUp}
+              className="mt-6 max-w-lg text-lg italic leading-relaxed text-muted text-balance"
+            >
+              {hero.lead}
+            </motion.p>
+
+            <motion.div variants={fadeUp} className="mt-8 flex max-w-xl flex-col gap-3">
+              {hero.timeline.map((entry) => (
+                <p
+                  key={entry.label}
+                  className="grid grid-cols-[6.5rem_1fr] gap-4 text-[0.95rem] leading-relaxed text-ink/70"
+                >
+                  <span className="font-mono text-xs uppercase tracking-[0.15em] text-accent/90 pt-1">
+                    {entry.label}
+                  </span>
+                  <span>{entry.text}</span>
+                </p>
+              ))}
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-3">
+              {heroEducation.map((entry) => (
+                <EducationChip
+                  key={entry.institution}
+                  institution={entry.institution}
+                  detail={entry.detail}
+                />
+              ))}
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping motion-reduce:animate-none rounded-full bg-accent/70 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                  {profile.status} &middot; {profile.location}
+                </span>
+              </span>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
+              <MagneticButton href="#work" variant="primary">
+                Explore my work
+                <ArrowUpRight
+                  size={16}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </MagneticButton>
+              <MagneticButton href="#contact" variant="secondary">
+                Get in touch
+              </MagneticButton>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3"
+            >
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors hover:text-accent"
+              >
+                <FileText size={14} /> Resume
+              </a>
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors hover:text-accent"
+              >
+                <Link2 size={14} /> LinkedIn
+              </a>
+              <a
+                href={`mailto:${profile.email}`}
+                className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors hover:text-accent"
+              >
+                <Mail size={14} /> Say hello
+              </a>
+            </motion.div>
           </div>
 
-          <MetricBadge className="absolute -bottom-6 -left-6" offset={0} revealDelay={0.6} />
-          <MetricBadge className="absolute -top-6 -right-4" offset={2} revealDelay={0.75} />
+          <motion.div
+            ref={portraitRef}
+            variants={{
+              hidden: { opacity: 0, scale: 0.95 },
+              show: {
+                opacity: 1,
+                scale: 1,
+                transition: { duration: 1.1, ease: easeOut },
+              },
+            }}
+            className="relative mx-auto w-full max-w-sm lg:max-w-none"
+          >
+            {/* Crop marks frame the portrait like a film still. */}
+            <span className="absolute -left-3 -top-3 h-6 w-6 border-l border-t border-accent/70" aria-hidden />
+            <span className="absolute -right-3 -top-3 h-6 w-6 border-r border-t border-accent/70" aria-hidden />
+            <span className="absolute -bottom-3 -left-3 h-6 w-6 border-b border-l border-accent/70" aria-hidden />
+            <span className="absolute -bottom-3 -right-3 h-6 w-6 border-b border-r border-accent/70" aria-hidden />
+
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-line bg-surface grayscale">
+              <motion.img
+                src="/profile.jpg"
+                alt={profile.name}
+                style={prefersReducedMotion ? undefined : { y: parallaxY, scale: 1.08 }}
+                className="h-full w-full object-cover will-change-transform"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ boxShadow: "inset 0 0 90px 24px rgba(0,0,0,0.45)" }}
+                aria-hidden
+              />
+              <div className="absolute inset-0 bg-accent/10 mix-blend-overlay" aria-hidden />
+            </div>
+          </motion.div>
+        </Container>
+
+        <motion.div variants={fadeUp} className="border-t border-line">
+          <Container className="grid grid-cols-2 md:grid-cols-4">
+            {heroMetrics.map((metric, i) => (
+              <div
+                key={metric.label}
+                className={`flex flex-col gap-1.5 py-8 pr-4 ${i > 0 ? "border-l border-line pl-6 md:pl-10" : ""} ${i === 2 ? "max-md:border-l-0 max-md:pl-0 max-md:border-t max-md:border-line" : ""} ${i === 3 ? "max-md:border-t max-md:border-line" : ""}`}
+              >
+                <span className="font-display text-3xl font-medium text-ink md:text-4xl">
+                  <CountUp value={metric.value} />
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
+                  {metric.label}
+                </span>
+              </div>
+            ))}
+          </Container>
         </motion.div>
-      </Container>
+      </motion.div>
 
       <motion.a
         href="#journey"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1 }}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted hover:text-ink transition-colors md:flex"
+        animate={{ opacity: started ? 1 : 0 }}
+        transition={{ duration: 0.6, delay: 1.4 }}
+        className="absolute bottom-40 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-accent md:flex"
         aria-label="Scroll to Journey section"
       >
         <span className="font-mono text-xs uppercase tracking-[0.2em]">Scroll</span>

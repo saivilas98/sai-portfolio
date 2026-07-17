@@ -5,6 +5,7 @@ type MagneticButtonProps = {
   children: ReactNode;
   href: string;
   variant?: "primary" | "secondary";
+  size?: "md" | "lg";
   className?: string;
   target?: string;
   rel?: string;
@@ -14,6 +15,7 @@ export function MagneticButton({
   children,
   href,
   variant = "primary",
+  size = "md",
   className = "",
   target,
   rel,
@@ -25,10 +27,8 @@ export function MagneticButton({
 
   function handleMouseMove(event: MouseEvent<HTMLAnchorElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
-    const relX = event.clientX - rect.left - rect.width / 2;
-    const relY = event.clientY - rect.top - rect.height / 2;
-    x.set(relX * 0.25);
-    y.set(relY * 0.4);
+    x.set((event.clientX - rect.left - rect.width / 2) * 0.25);
+    y.set((event.clientY - rect.top - rect.height / 2) * 0.4);
   }
 
   function handleMouseLeave() {
@@ -37,11 +37,12 @@ export function MagneticButton({
   }
 
   const base =
-    "group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium whitespace-nowrap transition-[color,background-color,border-color,box-shadow,opacity] duration-300 ease-out";
+    "group inline-flex items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap transition-[color,background-color,border-color,box-shadow] duration-300 ease-out";
+  const sizes = size === "lg" ? "px-10 py-5 text-base" : "px-8 py-4 text-sm";
   const styles =
     variant === "primary"
-      ? "bg-ink text-paper shadow-[0_8px_20px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_18px_36px_-14px_rgba(0,0,0,0.55)] hover:opacity-90"
-      : "bg-transparent text-ink border border-line hover:border-ink hover:bg-ink/[0.03] hover:shadow-[0_10px_28px_-18px_rgba(0,0,0,0.35)]";
+      ? "bg-ink text-paper hover:bg-accent hover:text-paper shadow-[0_12px_32px_-16px_rgb(var(--shadow-rgb)/0.65)] hover:shadow-[0_18px_44px_-18px_rgb(var(--shadow-rgb)/0.7)]"
+      : "bg-transparent text-ink border border-line hover:border-accent/60 hover:bg-accent/5 hover:text-accent";
 
   return (
     <motion.a
@@ -54,9 +55,20 @@ export function MagneticButton({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       transition={{ type: "spring", stiffness: 420, damping: 24 }}
-      className={`${base} ${styles} ${className}`}
+      className={`${base} ${sizes} ${styles} ${className}`}
     >
-      {children}
+      {/* Label rolls up on hover; a twin rises to take its place. */}
+      <span className="relative overflow-hidden">
+        <span className="flex items-center justify-center gap-2.5 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:-translate-y-[115%]">
+          {children}
+        </span>
+        <span
+          aria-hidden
+          className="absolute inset-0 flex translate-y-[115%] items-center justify-center gap-2.5 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:translate-y-0"
+        >
+          {children}
+        </span>
+      </span>
     </motion.a>
   );
 }

@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/profile.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="theme-color" content="#FAF7F2" />
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem("sai-portfolio-theme");
-          if (saved !== "dark") {
-            document.documentElement.classList.add("light");
+          if (localStorage.getItem("sai-portfolio-theme") === "dark") {
+            document.documentElement.classList.add("dark");
           }
         } catch (e) {
-          document.documentElement.classList.add("light");
+          /* default stays light */
         }
       })();
     </script>

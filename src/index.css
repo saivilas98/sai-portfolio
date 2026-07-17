@@ -3,50 +3,110 @@
 @tailwind utilities;
 
 @layer base {
+  /* Daylight grade (default): warm paper, deep ink, burnished amber. */
   :root {
-    --color-paper: 10 10 10;
-    --color-surface: 19 19 19;
-    --color-ink: 250 250 250;
-    --color-muted: 143 143 143;
-    --color-line: 36 36 36;
-    --grid-line: 250 250 250;
-    --glow-rgb: 250 250 250;
-    --selection-bg: 250 250 250;
-    --selection-fg: 10 10 10;
-    color-scheme: dark;
+    --color-paper: 250 247 242;
+    --color-surface: 241 237 229;
+    --color-ink: 23 21 18;
+    --color-muted: 110 105 97;
+    --color-line: 226 220 209;
+    --color-accent: 168 114 26;
+    --vignette-rgb: 62 48 24;
+    --vignette-alpha: 0.1;
+    /* Shadows are warm in daylight, true black at night. */
+    --shadow-rgb: 62 48 24;
+    color-scheme: light;
   }
 
-  :root.light {
-    --color-paper: 255 255 255;
-    --color-surface: 243 243 243;
-    --color-ink: 15 15 15;
-    --color-muted: 90 90 90;
-    --color-line: 222 222 222;
-    --grid-line: 10 10 10;
-    --glow-rgb: 10 10 10;
-    --selection-bg: 10 10 10;
-    --selection-fg: 255 255 255;
-    color-scheme: light;
+  /* Night screening grade. */
+  :root.dark {
+    --color-paper: 10 10 11;
+    --color-surface: 18 18 20;
+    --color-ink: 244 242 237;
+    --color-muted: 139 136 129;
+    --color-line: 39 39 43;
+    --color-accent: 224 168 78;
+    --vignette-rgb: 0 0 0;
+    --vignette-alpha: 0.42;
+    --shadow-rgb: 0 0 0;
+    color-scheme: dark;
   }
 
   html {
     scroll-behavior: smooth;
+    /* Anchored sections land below the fixed header instead of underneath it. */
+    scroll-padding-top: 5.5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     @apply bg-paper text-ink font-sans antialiased transition-colors duration-300;
+    font-feature-settings: "ss01" on, "cv05" on;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  /* Numerals in mono contexts align like a ledger. */
+  .font-mono,
+  code,
+  pre {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The scrollbar belongs to the design too. */
+  * {
+    scrollbar-color: rgb(var(--color-line)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--color-paper));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-line));
+    border-radius: 8px;
+    border: 2px solid rgb(var(--color-paper));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-muted) / 0.6);
   }
 
   ::selection {
-    background-color: rgb(var(--selection-bg) / 0.92);
-    color: rgb(var(--selection-fg));
+    background-color: rgb(var(--color-accent) / 0.9);
+    color: rgb(var(--color-paper));
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--selection-bg));
+    outline: 2px solid rgb(var(--color-accent));
     outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* The custom cursor replaces the native one only on precise pointers. */
+  @media (pointer: fine) {
+    .has-cursor,
+    .has-cursor a,
+    .has-cursor button {
+      cursor: none;
+    }
   }
 }
 
@@ -62,7 +122,7 @@
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0% 1px;
-    transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .underline-reveal:hover,
@@ -70,34 +130,136 @@
     background-size: 100% 1px;
   }
 
+  /* Living film grain: an oversized layer jitters in coarse steps. */
   .grain::before {
     content: "";
     position: fixed;
-    inset: 0;
-    z-index: 1;
+    top: -60%;
+    left: -60%;
+    width: 220%;
+    height: 220%;
+    z-index: 40;
     pointer-events: none;
-    opacity: 0.05;
+    opacity: 0.055;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain-shift 1.4s steps(8) infinite;
   }
 
-  .grid-texture {
-    background-image:
-      linear-gradient(to right, rgb(var(--grid-line) / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(var(--grid-line) / 0.05) 1px, transparent 1px);
-    background-size: 64px 64px;
+  @keyframes grain-shift {
+    0%, 100% { transform: translate(0, 0); }
+    12.5% { transform: translate(-2%, 1%); }
+    25% { transform: translate(1%, -2%); }
+    37.5% { transform: translate(-1%, 2%); }
+    50% { transform: translate(2%, 1%); }
+    62.5% { transform: translate(-2%, -1%); }
+    75% { transform: translate(1%, 2%); }
+    87.5% { transform: translate(2%, -2%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grain::before {
+      animation: none;
+    }
+  }
+
+  /* Cinematic vignette pulling the eye toward centre stage. */
+  .vignette::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    pointer-events: none;
+    background: radial-gradient(
+      115% 90% at 50% 42%,
+      transparent 62%,
+      rgb(var(--vignette-rgb) / var(--vignette-alpha)) 100%
+    );
+  }
+
+  /* Ghost chapter numerals behind section titles. */
+  .ghost-number {
+    -webkit-text-stroke: 1px rgb(var(--color-ink) / 0.14);
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Outlined display type for ghost/echo moments. */
+  .text-outline {
+    -webkit-text-stroke: 1px rgb(var(--color-ink) / 0.22);
+    color: transparent;
   }
 
   .marquee-track {
-    animation: marquee 28s linear infinite;
+    animation: marquee 30s linear infinite;
+  }
+
+  .marquee-track-rev {
+    animation: marquee 38s linear infinite reverse;
+  }
+
+  .marquee-shell:hover .marquee-track,
+  .marquee-shell:hover .marquee-track-rev {
+    animation-play-state: paused;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   }
 
   @keyframes marquee {
-    from {
-      transform: translateX(0);
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track,
+    .marquee-track-rev {
+      animation: none;
     }
-    to {
-      transform: translateX(-50%);
+  }
+
+  /* Horizontal touch rails (project screens on mobile). */
+  .snap-rail {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .snap-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .snap-rail > * {
+    scroll-snap-align: center;
+  }
+
+  /* Shared interactive-surface response. */
+  .card-lift {
+    transition:
+      border-color 0.35s ease,
+      box-shadow 0.35s ease,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-lift:hover {
+    border-color: rgb(var(--color-accent) / 0.45);
+    box-shadow: 0 24px 56px -32px rgb(var(--shadow-rgb) / 0.55);
+    transform: translateY(-3px);
+  }
+
+  /* Hovering one card dims its siblings, spotlighting the choice. */
+  .spotlight-group:hover > :not(:hover) {
+    opacity: 0.45;
+  }
+
+  .spotlight-group > * {
+    transition: opacity 0.4s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-lift:hover {
+      transform: none;
     }
   }
 }

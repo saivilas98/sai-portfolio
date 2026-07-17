@@ -9,6 +9,7 @@ export default {
         ink: "rgb(var(--color-ink) / <alpha-value>)",
         muted: "rgb(var(--color-muted) / <alpha-value>)",
         line: "rgb(var(--color-line) / <alpha-value>)",
+        accent: "rgb(var(--color-accent) / <alpha-value>)",
       },
       fontFamily: {
         display: ["'Bricolage Grotesque'", "sans-serif"],
@@ -16,7 +17,7 @@ export default {
         mono: ["'JetBrains Mono'", "monospace"],
       },
       maxWidth: {
-        content: "1180px",
+        content: "1240px",
       },
       letterSpacing: {
         tightest: "-0.04em",

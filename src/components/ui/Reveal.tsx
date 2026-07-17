@@ -23,7 +23,7 @@ export function Reveal({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease: easeOut, delay }}
+      transition={{ duration: 0.8, ease: easeOut, delay }}
     >
       {children}
     </MotionTag>

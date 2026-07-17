@@ -2,12 +2,20 @@ import { motion } from "framer-motion";
 import { Check, Circle, Loader2 } from "lucide-react";
 import { buildLog } from "../../data/content";
 import { Container } from "../ui/Container";
+import { CountUp } from "../ui/CountUp";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
+import { easeOut } from "../../lib/motion";
 
 const statusIcon = {
-  shipped: <Check size={14} className="text-ink" />,
-  "in-progress": <Loader2 size={14} className="text-muted animate-spin" style={{ animationDuration: "2.5s" }} />,
+  shipped: <Check size={14} className="text-accent" />,
+  "in-progress": (
+    <Loader2
+      size={14}
+      className="animate-spin text-muted motion-reduce:animate-none"
+      style={{ animationDuration: "2.5s" }}
+    />
+  ),
   coming: <Circle size={10} className="text-line" />,
 };
 
@@ -15,16 +23,27 @@ export function BuildLog() {
   const percent = Math.round((buildLog.shipped / buildLog.total) * 100);
 
   return (
-    <section className="py-28 md:py-36 border-t border-line">
+    <section className="border-t border-line py-28 md:py-40">
       <Container>
         <SectionHeading index="05" eyebrow="Build Log" title="Six products. Slowly, honestly." />
 
-        <Reveal delay={0.08} className="mt-12 rounded-[1.75rem] border border-line bg-surface p-7 sm:p-10 font-mono">
+        <Reveal
+          delay={0.08}
+          className="mt-14 rounded-3xl border border-line bg-surface p-7 font-mono sm:p-10"
+        >
           <div className="flex flex-col divide-y divide-line">
-            {buildLog.entries.map((entry) => (
-              <div key={entry.label} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
-                <span className={`text-sm ${entry.status === "coming" ? "text-muted" : "text-ink"}`}>
-                  {entry.label}
+            {buildLog.entries.map((entry, i) => (
+              <div
+                key={entry.label}
+                className="flex items-center justify-between py-4 first:pt-0 last:pb-0"
+              >
+                <span className="flex items-baseline gap-4">
+                  <span className="text-[10px] text-muted/70 tabular-nums" aria-hidden>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={`text-sm ${entry.status === "coming" ? "text-muted" : "text-ink"}`}>
+                    {entry.label}
+                  </span>
                 </span>
                 <span className="flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-muted">
                   {entry.status.replace("-", " ")}
@@ -34,20 +53,20 @@ export function BuildLog() {
             ))}
           </div>
 
-          <div className="mt-8">
-            <div className="flex items-center justify-between mb-2 text-xs uppercase tracking-[0.15em] text-muted">
+          <div className="mt-10">
+            <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.15em] text-muted">
               <span>Progress</span>
-              <span>
-                {buildLog.shipped} / {buildLog.total}
+              <span className="tabular-nums">
+                <CountUp value={String(buildLog.shipped)} /> / {buildLog.total}
               </span>
             </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-paper border border-line">
+            <div className="h-1.5 w-full overflow-hidden rounded-full border border-line bg-paper">
               <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: `${percent}%` }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="h-full rounded-full bg-ink"
+                transition={{ duration: 1.1, ease: easeOut, delay: 0.2 }}
+                className="h-full rounded-full bg-accent"
               />
             </div>
           </div>

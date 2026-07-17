@@ -1,90 +1,110 @@
+import { motion } from "framer-motion";
 import { ArrowUpRight, AtSign, Link2, Mail, MapPin } from "lucide-react";
 import { contact, profile } from "../../data/content";
 import { Container } from "../ui/Container";
+import { MagneticButton } from "../ui/MagneticButton";
 import { Reveal } from "../ui/Reveal";
+import { lineRise, stagger } from "../../lib/motion";
 
 const links = [
-  {
-    label: "Email",
-    value: profile.email,
-    href: `mailto:${profile.email}`,
-    icon: Mail,
-  },
-  {
-    label: "LinkedIn",
-    value: "/in/saivilas98",
-    href: profile.linkedin,
-    icon: Link2,
-  },
-  {
-    label: "Instagram",
-    value: "@saivilas98",
-    href: profile.instagram,
-    icon: AtSign,
-  },
+  { label: "Email", value: profile.email, href: `mailto:${profile.email}`, icon: Mail },
+  { label: "LinkedIn", value: "/in/saivilas98", href: profile.linkedin, icon: Link2 },
+  { label: "Instagram", value: "@saivilas98", href: profile.instagram, icon: AtSign },
 ];
+
+function MaskedFinale({ text }: { text: string }) {
+  const words = text.split(" ");
+  return (
+    <motion.h2
+      variants={stagger(0.04)}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-120px" }}
+      className="mx-auto max-w-4xl font-display text-4xl font-medium leading-[1.08] tracking-tightest text-ink sm:text-5xl md:text-6xl"
+    >
+      {words.map((word, i) => (
+        <span key={`${word}-${i}`}>
+          <span className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom">
+            <motion.span variants={lineRise} className="inline-block will-change-transform">
+              {word}
+            </motion.span>
+          </span>
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </motion.h2>
+  );
+}
 
 export function Contact() {
   return (
-    <section id="contact" className="py-28 md:py-36 border-t border-line">
-      <Container>
-        <div className="rounded-[2rem] bg-ink px-8 py-16 sm:px-16 md:py-24 text-center relative overflow-hidden">
-          <div
-            className="pointer-events-none absolute inset-0 grid-texture opacity-40"
-            style={{ filter: "invert(1)" }}
-            aria-hidden
-          />
+    <section id="contact" className="relative overflow-hidden border-t border-line">
+      {/* Final pool of stage light. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 50% 62%, rgb(var(--color-accent) / 0.07), transparent 70%)",
+        }}
+        aria-hidden
+      />
 
-          <Reveal className="relative">
-            <span className="font-mono text-xs uppercase tracking-[0.25em] text-paper/50">
-              {contact.eyebrow}
-            </span>
-            <h2 className="mt-5 font-display text-3xl sm:text-4xl md:text-5xl font-medium text-paper text-balance max-w-2xl mx-auto leading-[1.15]">
-              {contact.lines[0]}
-            </h2>
-            <p className="mt-5 max-w-xl mx-auto text-paper/60 text-base md:text-lg leading-relaxed text-balance">
-              {contact.lines[1]}
-            </p>
+      <Container className="relative flex min-h-[92vh] flex-col items-center justify-center py-28 text-center">
+        <Reveal>
+          <span className="font-mono text-xs uppercase tracking-[0.35em] text-accent">
+            {contact.eyebrow}
+          </span>
+        </Reveal>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <a
-                href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink transition-opacity hover:opacity-90"
-              >
-                Email me
-                <ArrowUpRight size={16} />
-              </a>
-              <a
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:border-paper"
-              >
-                Download resume
-              </a>
-            </div>
-
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-              {links.map(({ label, value, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={label !== "Email" ? "_blank" : undefined}
-                  rel={label !== "Email" ? "noreferrer" : undefined}
-                  className="inline-flex items-center gap-2 text-sm text-paper/60 hover:text-paper transition-colors"
-                >
-                  <Icon size={16} />
-                  {value}
-                </a>
-              ))}
-            </div>
-
-            <p className="mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-paper/40">
-              <MapPin size={12} />
-              Currently based in Hyderabad, India
-            </p>
-          </Reveal>
+        <div className="mt-8">
+          <MaskedFinale text={contact.lines[0]} />
         </div>
+
+        <Reveal delay={0.15}>
+          <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted text-balance md:text-lg">
+            {contact.lines[1]}
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.2} className="mt-12 flex flex-wrap items-center justify-center gap-4">
+          <MagneticButton href={`mailto:${profile.email}`} variant="primary" size="lg">
+            Email me
+            <ArrowUpRight
+              size={18}
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </MagneticButton>
+          <MagneticButton
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noreferrer"
+            variant="secondary"
+          >
+            Download resume
+          </MagneticButton>
+        </Reveal>
+
+        <Reveal delay={0.25} className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          {links.map(({ label, value, href, icon: Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target={label !== "Email" ? "_blank" : undefined}
+              rel={label !== "Email" ? "noreferrer" : undefined}
+              className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
+            >
+              <Icon size={16} />
+              {value}
+            </a>
+          ))}
+        </Reveal>
+
+        <Reveal delay={0.3}>
+          <p className="mt-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-muted/80">
+            <MapPin size={12} className="text-accent/80" />
+            Currently based in Hyderabad, India
+          </p>
+        </Reveal>
       </Container>
     </section>
   );

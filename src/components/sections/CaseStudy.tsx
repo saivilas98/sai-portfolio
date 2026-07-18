@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { caseStudy } from "../../data/content";
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
@@ -42,6 +43,11 @@ function Detail({ heading, children }: { heading: string; children: React.ReactN
 }
 
 export function CaseStudy() {
+  const bandRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: bandRef, offset: ["start end", "end start"] });
+  const quoteY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
   return (
     <section id="case-study" className="border-t border-line pt-28 md:pt-40">
       <Container>
@@ -109,13 +115,14 @@ export function CaseStudy() {
       </Container>
 
       {/* The moment gets the whole screen: an inverted, full-bleed band. */}
-      <div className="relative mt-24 overflow-hidden bg-ink py-20 md:py-28">
-        <span
-          className="pointer-events-none absolute -top-14 left-[6%] select-none font-display text-[16rem] leading-none text-accent/20"
+      <div ref={bandRef} className="relative mt-24 overflow-hidden bg-ink py-20 md:py-28">
+        <motion.span
+          style={prefersReducedMotion ? undefined : { y: quoteY }}
+          className="pointer-events-none absolute -top-14 left-[6%] select-none font-display text-[16rem] leading-none text-accent/20 will-change-transform"
           aria-hidden
         >
           "
-        </span>
+        </motion.span>
         <Container className="relative">
           <Reveal>
             <h4 className="mb-8 font-mono text-[11px] font-medium uppercase tracking-[0.3em] text-accent">

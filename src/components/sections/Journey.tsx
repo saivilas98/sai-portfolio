@@ -31,13 +31,17 @@ function Stop({ entry, index }: { entry: JourneyEntry; index: number }) {
 
   return (
     <Reveal as="li" className="relative grid grid-cols-[1.5rem_1fr] gap-5 md:grid-cols-2 md:gap-0">
-      {/* Node on the spine */}
-      <span
+      {/* Node on the spine: pops into place as the story arrives at it. */}
+      <motion.span
+        initial={{ scale: 0.4, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true, margin: "-90px" }}
+        transition={{ type: "spring", stiffness: 320, damping: 16 }}
         className="absolute -left-[0.5rem] top-1 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-line bg-surface text-accent md:left-1/2 md:-translate-x-1/2"
         aria-hidden
       >
         <Icon size={12} />
-      </span>
+      </motion.span>
 
       <span className="md:hidden" aria-hidden />
       <div

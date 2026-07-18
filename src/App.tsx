@@ -14,6 +14,7 @@ import { Resume } from "./components/sections/Resume";
 import { TopBar } from "./components/sections/TopBar";
 import { Cursor } from "./components/fx/Cursor";
 import { Preloader } from "./components/fx/Preloader";
+import { ScrollProgress } from "./components/fx/ScrollProgress";
 import { Ticker } from "./components/ui/Ticker";
 
 const marqueeItems = [
@@ -32,6 +33,7 @@ function App() {
     <MotionConfig reducedMotion="user">
       <Preloader onReveal={() => setStarted(true)} />
       <Cursor />
+      <ScrollProgress />
 
       <div className="grain vignette relative">
         <a

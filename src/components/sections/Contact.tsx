@@ -80,7 +80,7 @@ export function Contact() {
             rel="noreferrer"
             variant="secondary"
           >
-            Download resume
+            View resume
           </MagneticButton>
         </Reveal>
 

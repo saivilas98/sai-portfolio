@@ -18,7 +18,6 @@ export function ProductThinking() {
     <section className="border-t border-line py-28 md:py-40">
       <Container>
         <SectionHeading
-          index="04"
           eyebrow="Work in progress"
           title="Product Thinking"
           description={productThinking.intro}

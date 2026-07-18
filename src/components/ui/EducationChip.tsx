@@ -17,7 +17,10 @@ export function EducationChip({ institution, detail }: EducationChipProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <motion.span
+      <motion.button
+        type="button"
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
         whileHover={{ y: -2 }}
         transition={{ type: "spring", stiffness: 320, damping: 20 }}
         className="inline-flex cursor-help items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors duration-300 hover:border-accent/50 hover:text-ink"
@@ -25,7 +28,7 @@ export function EducationChip({ institution, detail }: EducationChipProps) {
       >
         <GraduationCap size={13} className="text-accent" />
         {institution}
-      </motion.span>
+      </motion.button>
 
       <AnimatePresence>
         {hovered && (

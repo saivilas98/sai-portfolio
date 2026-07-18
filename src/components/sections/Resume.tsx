@@ -1,4 +1,4 @@
-import { Download, FileText } from "lucide-react";
+import { ArrowUpRight, FileText } from "lucide-react";
 import { profile, resume } from "../../data/content";
 import { Container } from "../ui/Container";
 import { MagneticButton } from "../ui/MagneticButton";
@@ -24,8 +24,8 @@ export function Resume() {
               variant="primary"
               className="mt-8"
             >
-              Download
-              <Download size={16} />
+              View resume
+              <ArrowUpRight size={16} />
             </MagneticButton>
           </div>
 

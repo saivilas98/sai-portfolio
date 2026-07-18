@@ -25,7 +25,7 @@ export function BuildLog() {
   return (
     <section className="border-t border-line py-28 md:py-40">
       <Container>
-        <SectionHeading index="05" eyebrow="Build Log" title="Six products. Slowly, honestly." />
+        <SectionHeading eyebrow="Build Log" title="Six products. Slowly, honestly." />
 
         <Reveal
           delay={0.08}
@@ -62,11 +62,11 @@ export function BuildLog() {
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full border border-line bg-paper">
               <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: `${percent}%` }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: percent / 100 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.1, ease: easeOut, delay: 0.2 }}
-                className="h-full rounded-full bg-accent"
+                className="h-full origin-left rounded-full bg-accent"
               />
             </div>
           </div>

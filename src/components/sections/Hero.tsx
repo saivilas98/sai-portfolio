@@ -215,7 +215,7 @@ export function Hero({ started }: { started: boolean }) {
               />
               <div
                 className="absolute inset-0"
-                style={{ boxShadow: "inset 0 0 90px 24px rgba(0,0,0,0.45)" }}
+                style={{ boxShadow: "inset 0 0 90px 24px rgb(var(--shadow-rgb) / 0.45)" }}
                 aria-hidden
               />
               <div className="absolute inset-0 bg-accent/10 mix-blend-overlay" aria-hidden />

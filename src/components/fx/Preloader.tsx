@@ -8,8 +8,11 @@ import { easeInOut } from "../../lib/motion";
  * split shutter — top half lifts, bottom half drops. `onReveal` fires as
  * the shutter opens so the hero can enter underneath it.
  */
+const SESSION_KEY = "sai-portfolio-intro-seen";
+
 export function Preloader({ onReveal }: { onReveal: () => void }) {
   const prefersReducedMotion = useReducedMotion();
+  const alreadySeen = useRef(sessionStorage.getItem(SESSION_KEY) === "1").current;
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
   const revealed = useRef(false);
@@ -17,11 +20,12 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
   const reveal = () => {
     if (revealed.current) return;
     revealed.current = true;
+    sessionStorage.setItem(SESSION_KEY, "1");
     onReveal();
   };
 
   useEffect(() => {
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || alreadySeen) {
       setOpen(true);
       reveal();
       return;

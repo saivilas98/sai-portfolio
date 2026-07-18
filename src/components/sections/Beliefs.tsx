@@ -8,7 +8,7 @@ export function Beliefs() {
   return (
     <section id="beliefs" className="border-t border-line py-28 md:py-40">
       <Container>
-        <SectionHeading index="06" eyebrow="What I Believe" title="A short, growing manifesto." />
+        <SectionHeading index="04" eyebrow="What I Believe" title="A short, growing manifesto." />
 
         <div className="spotlight-group mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {beliefs.map((belief, i) => (

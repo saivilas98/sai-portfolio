@@ -13,6 +13,7 @@ import { ProjectsCinema } from "./components/sections/ProjectsCinema";
 import { Resume } from "./components/sections/Resume";
 import { TopBar } from "./components/sections/TopBar";
 import { Cursor } from "./components/fx/Cursor";
+import { LightField } from "./components/fx/LightField";
 import { Preloader } from "./components/fx/Preloader";
 import { ScrollProgress } from "./components/fx/ScrollProgress";
 import { Ticker } from "./components/ui/Ticker";
@@ -34,6 +35,7 @@ function App() {
       <Preloader onReveal={() => setStarted(true)} />
       <Cursor />
       <ScrollProgress />
+      <LightField />
 
       <div className="grain vignette relative">
         <a

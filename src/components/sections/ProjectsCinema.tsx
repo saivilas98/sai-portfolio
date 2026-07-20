@@ -3,10 +3,7 @@ import {
   AnimatePresence,
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
-  useTransform,
-  type MotionValue,
 } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { projectLearnings, projects, type Project } from "../../data/content";
@@ -14,30 +11,57 @@ import { Container } from "../ui/Container";
 import { PhoneFrame } from "../ui/PhoneFrame";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
-import { Toggle } from "../ui/Toggle";
+import { easeOut } from "../../lib/motion";
 
-function ProjectStory({ project }: { project: Project }) {
+type Step = { title: string; body: React.ReactNode };
+
+/** Each project's toggleLabel ("The idea · What I cut · What I learned")
+ *  names the acts of its story. */
+function buildSteps(project: Project): Step[] {
+  const labels = project.toggleLabel.split("·").map((s) => s.trim());
   const learning = projectLearnings[project.id];
-  return (
-    <div className="flex flex-col gap-3 text-sm leading-relaxed text-ink/75">
-      {project.detail.paragraphs.map((p) => (
-        <p key={p}>{p}</p>
-      ))}
-      {project.detail.cut && (
-        <p>
-          <span className="text-muted">What I cut: </span>
-          {project.detail.cut}
-        </p>
-      )}
-      {project.detail.kept && (
-        <p>
-          <span className="text-muted">{project.detail.cut ? "What stayed: " : "Features: "}</span>
-          {project.detail.kept}
-        </p>
-      )}
-      {learning && <p className="mt-1 italic text-ink/60">{learning}</p>}
-    </div>
-  );
+
+  const steps: Step[] = [
+    {
+      title: labels[0] ?? project.detail.eyebrow,
+      body: (
+        <div className="flex flex-col gap-3">
+          {project.detail.paragraphs.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: labels[1] ?? "Decisions",
+      body: (
+        <div className="flex flex-col gap-4">
+          {project.detail.cut && (
+            <div>
+              <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                Cut
+              </p>
+              <p>{project.detail.cut}</p>
+            </div>
+          )}
+          {project.detail.kept && (
+            <div>
+              <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                {project.detail.cut ? "Kept" : "Features"}
+              </p>
+              <p>{project.detail.kept}</p>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      title: labels[2] ?? "What I learned",
+      body: learning ? <p className="italic text-ink/70">{learning}</p> : null,
+    },
+  ];
+
+  return steps.filter((s) => s.body !== null);
 }
 
 function VisitLink({ project }: { project: Project }) {
@@ -57,181 +81,156 @@ function VisitLink({ project }: { project: Project }) {
   );
 }
 
-/** One full-viewport scene inside the horizontal reel. */
-function CinemaSlide({
-  project,
+/** One story act. The hairline spine warms to accent while its act is live. */
+function StoryStep({
+  step,
   index,
-  total,
-  progress,
+  active,
 }: {
-  project: Project;
+  step: Step;
   index: number;
-  total: number;
-  progress: MotionValue<number>;
+  active: boolean;
 }) {
-  // Local drift: phones float upward as their scene sweeps through the frame,
-  // while the copy travels a touch slower than the track for depth.
-  const drift = useTransform(progress, [(index - 1) / total, (index + 1) / total], [70, -70]);
-  const slowDrift = useTransform(drift, (v) => v * 0.55);
-  const fastDrift = useTransform(drift, (v) => v * 1.25);
-  const copyLag = useTransform(progress, [(index - 1) / total, (index + 1) / total], [60, -60]);
-
   return (
-    <div className="relative flex h-full w-screen flex-none items-center">
-      {/* Ghost numeral anchors each scene like a slate. */}
-      <span
-        className="text-outline pointer-events-none absolute right-[4%] top-1/2 -translate-y-1/2 select-none font-display text-[22rem] font-bold leading-none opacity-60"
+    <div
+      className={`relative flex flex-col justify-center border-l py-10 pl-7 transition-colors duration-500 md:pl-9 lg:min-h-[44vh] ${
+        active ? "border-accent/70" : "border-line"
+      }`}
+    >
+      <p
+        className={`font-mono text-[11px] tracking-[0.25em] transition-colors duration-500 ${
+          active ? "text-accent" : "text-muted"
+        }`}
         aria-hidden
       >
-        {index + 1}
-      </span>
+        {String(index + 1).padStart(2, "0")}
+      </p>
+      <h4 className="mt-2 font-display text-xl font-medium tracking-tight text-ink md:text-2xl">
+        {step.title}
+      </h4>
+      <div className="mt-4 max-w-lg text-[0.95rem] leading-relaxed text-ink/75">{step.body}</div>
+    </div>
+  );
+}
+
+/** Sticky device: the screen changes as the story advances beside it. */
+function ScreenStage({ project, active }: { project: Project; active: number }) {
+  const image = project.images[Math.min(active, project.images.length - 1)];
+
+  return (
+    <div className="relative flex flex-col items-center gap-7">
+      {/* Pool of light grounding the device. */}
       <div
-        className="pointer-events-none absolute right-[8%] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(var(--color-accent)/0.08),transparent_65%)]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(var(--color-accent)/0.10),transparent_62%)]"
         aria-hidden
       />
 
-      <div className="relative mx-auto grid w-full max-w-content grid-cols-[1fr_1fr] items-center gap-12 px-10 xl:px-6">
-        <motion.div style={{ x: copyLag }} className="flex min-h-0 flex-col gap-5">
-          <p className="font-mono text-xs tracking-[0.25em] text-accent" aria-hidden>
-            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-          </p>
-          <div>
-            <h3 className="font-display text-4xl font-medium leading-[1.05] tracking-tightest text-ink xl:text-5xl">
-              {project.name}
-            </h3>
-            <p className="mt-3 max-w-md text-base text-muted text-balance">{project.tagline}</p>
-          </div>
-          <div className="mt-2 max-w-lg border-t border-line pt-5">
-            <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              {project.toggleLabel}
-            </p>
-            <ProjectStory project={project} />
-          </div>
-          <VisitLink project={project} />
-        </motion.div>
-
-        <div className="flex items-center justify-center gap-5">
-          <PhoneFrame
-            src={project.images[0].src}
-            alt={project.images[0].alt}
-            y={slowDrift}
-            rotate={-4}
-            className="mt-16"
+      <div className="relative aspect-[9/19.3] w-[230px] overflow-hidden rounded-[1.7rem] border border-line bg-black shadow-[0_48px_90px_-36px_rgb(var(--shadow-rgb)/0.8)] xl:w-[250px]">
+        <div
+          className="absolute left-1/2 top-0 z-10 h-5 w-24 -translate-x-1/2 rounded-b-2xl bg-black"
+          aria-hidden
+        />
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.img
+            key={image.src}
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            decoding="async"
+            width={250}
+            height={536}
+            initial={{ opacity: 0, y: 26, scale: 1.02 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.55, ease: easeOut }}
+            className="h-full w-full object-cover object-top"
           />
-          <PhoneFrame
-            src={project.images[1].src}
-            alt={project.images[1].alt}
-            y={drift}
-            rotate={0}
-            className="-mt-8"
-          />
-          <PhoneFrame
-            src={project.images[2].src}
-            alt={project.images[2].alt}
-            y={fastDrift}
-            rotate={4}
-            className="mt-10"
-          />
-        </div>
+        </AnimatePresence>
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[1.7rem] ring-1 ring-inset ring-white/5"
+          aria-hidden
+        />
       </div>
-    </div>
-  );
-}
 
-/** Desktop: vertical scroll drives a pinned horizontal travel through all four products. */
-function CinemaReel() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [current, setCurrent] = useState(0);
-  const { scrollYProgress } = useScroll({ target: trackRef });
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${(projects.length - 1) * 100}vw`]);
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setCurrent(Math.min(projects.length - 1, Math.floor(v * projects.length)));
-  });
-
-  return (
-    <div ref={trackRef} className="relative" style={{ height: `${projects.length * 100}vh` }}>
-      <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
-        <motion.div style={{ x }} className="flex min-h-0 flex-1 will-change-transform">
-          {projects.map((project, index) => (
-            <CinemaSlide
-              key={project.id}
-              project={project}
-              index={index}
-              total={projects.length}
-              progress={scrollYProgress}
-            />
-          ))}
-        </motion.div>
-
-        {/* Reel counter + progress, pinned to the bottom of the stage. */}
-        <div className="mx-auto w-full max-w-content px-10 pb-8 xl:px-6">
-          <div className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-            <span className="relative block h-[1.1em] overflow-hidden text-ink">
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.span
-                  key={projects[current].id}
-                  initial={{ y: "110%" }}
-                  animate={{ y: "0%" }}
-                  exit={{ y: "-110%" }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="block"
-                >
-                  {projects[current].name}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-            <span aria-hidden>
-              {String(current + 1).padStart(2, "0")} — {String(projects.length).padStart(2, "0")}
-            </span>
-          </div>
-          <div className="h-px w-full bg-line">
-            <motion.div
-              style={{ scaleX: scrollYProgress }}
-              className="h-full origin-left bg-accent"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/** Mobile & reduced-motion: each product is a scene card with a snap rail of screens. */
-function SceneCard({ project, index }: { project: Project; index: number }) {
-  return (
-    <Reveal className="card-lift rounded-3xl border border-line bg-surface p-6 sm:p-8">
-      <p className="mb-3 font-mono text-xs tracking-[0.25em] text-accent" aria-hidden>
-        {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-      </p>
-      <h3 className="font-display text-3xl font-medium leading-tight tracking-tightest text-ink">
-        {project.name}
-      </h3>
-      <p className="mt-2 text-base text-muted text-balance">{project.tagline}</p>
-
-      <div className="snap-rail -mx-6 mt-6 flex items-center gap-4 overflow-x-auto px-6 py-2 sm:-mx-8 sm:px-8">
-        {project.images.map((image) => (
-          <PhoneFrame key={image.src} src={image.src} alt={image.alt} />
+      {/* Which screen is on stage. */}
+      <div className="relative flex items-center gap-2" aria-hidden>
+        {project.images.map((img, i) => (
+          <span
+            key={img.src}
+            className={`h-1 rounded-full transition-all duration-500 ${
+              i === active ? "w-6 bg-accent" : "w-1.5 bg-line"
+            }`}
+          />
         ))}
       </div>
+    </div>
+  );
+}
 
-      <div className="mt-5">
-        <Toggle label={project.toggleLabel}>
-          <ProjectStory project={project} />
-        </Toggle>
-      </div>
+/** One product, told as a launch story: acts on one side, the living screen on the other. */
+function ProjectStory({ project, index }: { project: Project; index: number }) {
+  const steps = buildSteps(project);
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
 
-      <div className="mt-4">
-        <VisitLink project={project} />
-      </div>
-    </Reveal>
+  const { scrollYProgress } = useScroll({
+    target: stepsRef,
+    offset: ["start 0.55", "end 0.55"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setActive(Math.min(steps.length - 1, Math.max(0, Math.floor(v * steps.length))));
+  });
+
+  const flipped = index % 2 === 1;
+
+  return (
+    <article className="border-t border-line py-20 md:py-28">
+      <Container>
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+          <div className={flipped ? "lg:order-2" : ""}>
+            <Reveal>
+              <p className="font-mono text-xs tracking-[0.25em] text-accent" aria-hidden>
+                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+              </p>
+              <h3 className="mt-4 font-display text-4xl font-medium leading-[1.05] tracking-tightest text-ink md:text-5xl">
+                {project.name}
+              </h3>
+              <p className="mt-4 max-w-md text-base leading-relaxed text-muted text-balance md:text-lg">
+                {project.tagline}
+              </p>
+            </Reveal>
+
+            {/* Mobile: the screens ride a snap rail under the header. */}
+            <div className="snap-rail -mx-6 mt-8 flex items-center gap-4 overflow-x-auto px-6 py-2 md:-mx-10 md:px-10 lg:hidden">
+              {project.images.map((image) => (
+                <PhoneFrame key={image.src} src={image.src} alt={image.alt} />
+              ))}
+            </div>
+
+            <div ref={stepsRef} className="mt-8 flex flex-col lg:mt-12">
+              {steps.map((step, i) => (
+                <StoryStep key={step.title} step={step} index={i} active={i === active} />
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <VisitLink project={project} />
+            </div>
+          </div>
+
+          <div className={`relative hidden lg:block ${flipped ? "lg:order-1" : ""}`}>
+            <div className="sticky top-24 flex h-[calc(100vh-6rem)] items-center justify-center">
+              <ScreenStage project={project} active={active} />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </article>
   );
 }
 
 export function ProjectsCinema() {
-  const prefersReducedMotion = useReducedMotion();
-  const pinned = !prefersReducedMotion;
-
   return (
     <section id="work" className="border-t border-line pt-28 md:pt-40">
       <Container>
@@ -243,24 +242,11 @@ export function ProjectsCinema() {
         />
       </Container>
 
-      {pinned ? (
-        <>
-          <div className="hidden lg:block">
-            <CinemaReel />
-          </div>
-          <Container className="mt-14 flex flex-col gap-8 pb-20 lg:hidden">
-            {projects.map((project, index) => (
-              <SceneCard key={project.id} project={project} index={index} />
-            ))}
-          </Container>
-        </>
-      ) : (
-        <Container className="mt-14 flex flex-col gap-8 pb-20">
-          {projects.map((project, index) => (
-            <SceneCard key={project.id} project={project} index={index} />
-          ))}
-        </Container>
-      )}
+      <div className="mt-16 md:mt-24">
+        {projects.map((project, index) => (
+          <ProjectStory key={project.id} project={project} index={index} />
+        ))}
+      </div>
     </section>
   );
 }

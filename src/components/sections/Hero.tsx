@@ -1,19 +1,12 @@
-import { useEffect, useRef } from "react";
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, ArrowUpRight, FileText, Link2, Mail } from "lucide-react";
 import { hero, heroEducation, heroMetrics, profile } from "../../data/content";
 import { Container } from "../ui/Container";
 import { CountUp } from "../ui/CountUp";
 import { EducationChip } from "../ui/EducationChip";
 import { MagneticButton } from "../ui/MagneticButton";
-import { easeOut, fadeUp, lineRise, stagger } from "../../lib/motion";
+import { drawLine, easeOut, fadeUp, lineRise, stagger } from "../../lib/motion";
 
 function MaskedHeadline({ text }: { text: string }) {
   const words = text.split(" ");
@@ -33,37 +26,6 @@ function MaskedHeadline({ text }: { text: string }) {
         </span>
       ))}
     </motion.h1>
-  );
-}
-
-/** Warm stage light that drifts toward the pointer. */
-function Spotlight() {
-  const x = useMotionValue(-600);
-  const y = useMotionValue(-600);
-  const sx = useSpring(x, { stiffness: 40, damping: 18, mass: 0.8 });
-  const sy = useSpring(y, { stiffness: 40, damping: 18, mass: 0.8 });
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    x.set(window.innerWidth * 0.68);
-    y.set(window.innerHeight * 0.28);
-    if (prefersReducedMotion || !window.matchMedia("(pointer: fine)").matches) return;
-    const onMove = (e: PointerEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [x, y, prefersReducedMotion]);
-
-  return (
-    <motion.div
-      style={{ x: sx, y: sy }}
-      className="pointer-events-none absolute left-0 top-0 -z-10 h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
-      aria-hidden
-    >
-      <div className="h-full w-full rounded-full bg-[radial-gradient(circle,rgb(var(--color-accent)/0.09),transparent_62%)]" />
-    </motion.div>
   );
 }
 
@@ -87,8 +49,6 @@ export function Hero({ started }: { started: boolean }) {
 
   return (
     <section ref={sectionRef} id="top" className="relative overflow-hidden">
-      <Spotlight />
-
       <motion.div
         variants={stagger(0.09, 0.05)}
         initial="hidden"
@@ -105,6 +65,12 @@ export function Hero({ started }: { started: boolean }) {
             </motion.p>
 
             <MaskedHeadline text={profile.tagline} />
+
+            <motion.span
+              variants={drawLine}
+              className="mt-7 block h-px w-24 origin-left bg-accent"
+              aria-hidden
+            />
 
             <motion.p
               variants={fadeUp}

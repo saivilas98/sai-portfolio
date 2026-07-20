@@ -40,7 +40,9 @@ export function TopBar() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          scrolled ? "border-b border-line bg-paper/85 backdrop-blur-md" : "bg-transparent"
+          scrolled
+            ? "border-b border-line bg-paper/70 backdrop-blur-xl backdrop-saturate-150"
+            : "bg-transparent"
         } ${hidden && !menuOpen ? "-translate-y-full" : "translate-y-0"}`}
       >
         <Container
@@ -67,12 +69,14 @@ export function TopBar() {
                     isActive ? "text-ink" : "text-muted hover:text-ink"
                   }`}
                 >
-                  <span
-                    className={`absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent transition-opacity duration-300 ${
-                      isActive ? "opacity-100" : "opacity-0"
-                    }`}
-                    aria-hidden
-                  />
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      className="absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent"
+                      aria-hidden
+                    />
+                  )}
                   {item.label}
                 </a>
               );

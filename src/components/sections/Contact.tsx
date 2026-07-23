@@ -83,7 +83,7 @@ export function Contact() {
             ["--lit-r" as string]: "480px",
             boxShadow: "0 70px 130px -50px rgb(var(--shadow-rgb) / 0.5)",
           }}
-          className="lit glass relative mx-auto max-w-4xl rounded-[2rem] border border-line px-7 py-16 text-center transition-colors duration-500 hover:border-accent/25 sm:rounded-[2.5rem] sm:px-14 sm:py-20 md:py-24"
+          className="lit glass relative rounded-[2rem] border border-line px-7 py-16 text-center transition-colors duration-500 hover:border-accent/25 sm:rounded-[2.5rem] sm:px-14 sm:py-20 md:py-24"
         >
           <Reveal>
             <span className="font-mono text-xs uppercase tracking-[0.35em] text-accent">

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MotionConfig } from "framer-motion";
 import { Beliefs } from "./components/sections/Beliefs";
-import { BuildLog } from "./components/sections/BuildLog";
 import { CaseStudy } from "./components/sections/CaseStudy";
 import { ChapterRail } from "./components/sections/ChapterRail";
 import { Contact } from "./components/sections/Contact";
@@ -55,7 +54,6 @@ function App() {
           <ProjectsCinema />
           <CaseStudy />
           <ProductThinking />
-          <BuildLog />
           <Beliefs />
           <Resume />
           <Contact />

@@ -14,10 +14,9 @@ export const profile = {
 export type HeroMetric = { value: string; label: string };
 
 export const heroMetrics: HeroMetric[] = [
-  { value: "3", label: "consumer apps shipped" },
+  { value: "10+", label: "products built" },
   { value: "50+", label: "customer conversations" },
-  { value: "15+", label: "PRDs shipped at Ola" },
-  { value: "6", label: "products planned" },
+  { value: "5+", label: "PRDs shipped at Ola" },
 ];
 
 export type HeroTimelineEntry = { label: string; text: string };
@@ -27,7 +26,7 @@ export const hero = {
   timeline: [
     {
       label: "Weekdays",
-      text: "Data Analytics Manager at Accordion Partners — one dashboard at a time.",
+      text: "Data Analytics Manager at Accordion Partners, one dashboard at a time.",
     },
     {
       label: "Weekends",
@@ -35,7 +34,7 @@ export const hero = {
     },
     {
       label: "Previously",
-      text: "PM internship at Ola Electric — benchmarking competitors, talking to real customers, watching where things quietly broke. Felt completely natural.",
+      text: "PM internship at Ola Electric: benchmarking competitors, talking to real customers, watching where things quietly broke. Felt completely natural.",
     },
   ] as HeroTimelineEntry[],
 };
@@ -106,12 +105,22 @@ export type ProjectDetail = {
   kept?: string;
 };
 
+export type ProjectPMNotes = {
+  persona: string;
+  problem: string;
+  approach: string;
+};
+
 export type Project = {
   id: string;
   name: string;
   tagline: string;
   toggleLabel: string;
+  why: string;
+  category: string;
+  status: "Live" | "Prototype" | "Experiment";
   detail: ProjectDetail;
+  pm: ProjectPMNotes;
   images: { src: string; alt: string }[];
   url: string;
 };
@@ -122,6 +131,9 @@ export const projects: Project[] = [
     name: "Run Forge",
     tagline: "A daily activity tracker for every kind of movement, not just running.",
     toggleLabel: "The idea · What I cut · What I learned",
+    why: "Built to track movement without making running the only thing that counts.",
+    category: "Consumer Product",
+    status: "Live",
     detail: {
       eyebrow: "The idea",
       paragraphs: [
@@ -130,6 +142,11 @@ export const projects: Project[] = [
       ],
       cut: "Sport-specific stats · Social features · Complex dashboards",
       kept: "Daily activity logging · Weekly planning · Streak · Calendar",
+    },
+    pm: {
+      persona: "Someone who moves in more than one way during a week, gym one day, a run the next, dance on the weekend, and doesn't identify as 'a runner' or 'a gym person' strongly enough for a sport-specific app to feel like it's for them.",
+      problem: "Fitness trackers assume you picked a sport. If your week doesn't fit one category, you either force your activity into the wrong app or juggle two or three trackers to cover it all, and most people just give up and track nothing.",
+      approach: "Prioritized breadth over depth: one activity log that treats every kind of movement equally, instead of sport-specific stats for any single one. Social features and detailed dashboards were reasonable asks but cut early, they'd compete for attention with the one loop that actually builds the habit: log it, see the streak, come back tomorrow.",
     },
     images: [
       { src: "/projects/runforge/1.png", alt: "Run Forge today's plan and streak dashboard" },
@@ -143,6 +160,9 @@ export const projects: Project[] = [
     name: "Hydro Forge",
     tagline: "Track water. No lectures. No guilt.",
     toggleLabel: "The problem · Features · What I learned",
+    why: "Built to rethink hydration tracking without the guilt trip.",
+    category: "Consumer Product",
+    status: "Live",
     detail: {
       eyebrow: "The problem",
       paragraphs: [
@@ -150,6 +170,11 @@ export const projects: Project[] = [
         "The question I kept returning to: how do you show someone a bad week without making them feel bad about it? The app just doesn't make a thing of it.",
       ],
       kept: "Water tracking · Dashboard · Calendar · Day-wise history",
+    },
+    pm: {
+      persona: "People who've already tried a hydration app, maybe more than one, and deleted it within a week because the constant push notifications felt like nagging rather than help.",
+      problem: "Most hydration trackers optimize for reminders: buzz every hour, guilt you into logging. That treats the symptom (forgetting to drink water) without addressing why people quit (being reminded of failure feels worse than just not tracking).",
+      approach: "Prioritized tone over feature count. The core loop stayed deliberately small, log, see today's ring, glance at the week, and the one design rule that mattered most was: a bad day should be visible, never shameful. No streak-loss guilt, no red alarm states. Just quiet, honest numbers.",
     },
     images: [
       { src: "/projects/hydroforge/1.png", alt: "Hydro Forge daily intake progress ring" },
@@ -163,6 +188,9 @@ export const projects: Project[] = [
     name: "Money Forge",
     tagline: "One question: how much do I actually have left?",
     toggleLabel: "The problem · Features · What I learned",
+    why: "Built to answer one question clearly instead of showing charts nobody asked for.",
+    category: "Consumer Product",
+    status: "Live",
     detail: {
       eyebrow: "The problem",
       paragraphs: [
@@ -170,6 +198,11 @@ export const projects: Project[] = [
         "Said no to: Categories · Investment tracking · Bill splitting, all reasonable, all for a different product.",
       ],
       kept: "Expense logging (UPI / Card / Cash) · Salary & EMI tracking · Remaining balance always visible · Calendar history",
+    },
+    pm: {
+      persona: "Someone juggling a salary, a couple of EMIs, and daily UPI spending, who opens their banking app mid-month just to answer one question and has to dig through statements to get there.",
+      problem: "Personal finance apps are built for analysis: category breakdowns, spending charts, investment tracking. But the question most people actually ask day to day is much simpler: how much do I actually have left, right now, after everything committed.",
+      approach: "Scoped ruthlessly around a single hero number, remaining balance, always visible, always up to date. Categories, investment tracking, and bill-splitting all made the initial wishlist and all got cut, not because they're bad ideas, but because none of them serve the one job the app needed to do well before anything else.",
     },
     images: [
       { src: "/projects/moneyforge/1.png", alt: "Money Forge EMI and income settings" },
@@ -183,6 +216,9 @@ export const projects: Project[] = [
     name: "Forge Todo",
     tagline: "A daily execution system built to help people finish what actually matters.",
     toggleLabel: "The idea · What I cut · What I learned",
+    why: "Built to simplify daily execution instead of shipping another feature-heavy planner.",
+    category: "Consumer Product",
+    status: "Live",
     detail: {
       eyebrow: "The idea",
       paragraphs: [
@@ -190,6 +226,11 @@ export const projects: Project[] = [
         "Forge Todo was designed as an execution-first planner, not another feature-heavy task manager. Every week starts with intentional planning, while every day is deliberately limited to just three meaningful priorities. When unexpected work appears, users can seamlessly replace a planned task and move it to another day instead of feeling like they've failed.",
       ],
       kept: "Weekly planning · Daily 3-priority limit · Flexible task rescheduling",
+    },
+    pm: {
+      persona: "People who start Monday with a long, hopeful todo list, and by Wednesday have stopped opening the app because it's turned into a running record of everything they haven't done.",
+      problem: "Most todo apps optimize for capture: add anything, organize it, tag it, sort it. But an unlimited list doesn't help anyone finish things, it just moves the real problem, deciding what deserves today's attention, further out of sight.",
+      approach: "Constrained the daily view to exactly three priorities instead of an open-ended list, forcing the prioritization decision to happen upfront during weekly planning rather than being avoided every day. Rescheduling a task was deliberately designed as a normal, first-class action, not a failure state, so one missed day doesn't quietly break the whole system.",
     },
     images: [
       { src: "/projects/forgetodo/1.png", alt: "Forge Todo weekly planning view" },
@@ -205,6 +246,105 @@ export const projectLearnings: Record<string, string> = {
   hydroforge: "The screen after forgetting to drink for six hours matters more than any other screen in the app.",
   moneyforge: "Saying no to good ideas is harder than it sounds.",
   forgetodo: "This keeps planning flexible without sacrificing consistency.",
+};
+
+export const forgeSeries = {
+  eyebrow: "The Forge Series",
+  statement:
+    "Same product philosophy, shipped four different ways: track the one number that matters, hide everything else. Running, hydration, money, and todos each got the same quiet treatment.",
+};
+
+export type ProjectStatus = "Live" | "Prototype" | "Experiment";
+
+export type FeaturedExhibit = {
+  id: string;
+  name: string;
+  tagline: string;
+  category: string;
+  status: ProjectStatus;
+  why: string;
+  tech: string[];
+  paragraphs: string[];
+  images: { src: string; alt: string }[];
+  liveUrl?: string;
+  githubUrl?: string;
+};
+
+export const featuredExhibits: FeaturedExhibit[] = [
+  {
+    id: "fragments",
+    name: "Fragments",
+    tagline: "A psychological puzzle experience told through reconstructed memories.",
+    category: "Interactive Experience",
+    status: "Prototype",
+    why: "Built to see if a browser tab could hold a story, not just a tool.",
+    tech: ["Vanilla JS", "Web Audio API", "CSS"],
+    paragraphs: [
+      "Fragments is a first-person, point-and-click memory puzzle: each chapter rebuilds a single room from a subject's past, and the player pieces together what happened there, one object, one code, one drawer at a time.",
+      "No frameworks, no build step, no external assets. Just a design bible, a save system, an achievement layer, and a lot of care over what a single room can make someone feel.",
+    ],
+    images: [
+      { src: "/projects/fragments/1-title.png", alt: "Fragments title screen" },
+      { src: "/projects/fragments/2-room.png", alt: "Fragments: a first-person memory room with an inventory HUD" },
+    ],
+  },
+  {
+    id: "shadow-protocol",
+    name: "Shadow Protocol",
+    tagline: "A real-time multiplayer social-deduction game, built from scratch.",
+    category: "Game",
+    status: "Prototype",
+    why: "Built to see if I could ship a real-time multiplayer game from scratch.",
+    tech: ["Phaser 3", "Node.js", "Express", "Socket.IO"],
+    paragraphs: [
+      "Crewmates run tasks across an eight-room station while a Shadow sabotages systems and hunts in the dark: server-authoritative movement, a fog-of-war vision system, meetings, voting, and bots to fill empty seats when friends aren't around.",
+      "The interesting part wasn't the game loop, it was the plumbing underneath it: room management, host migration, and a state machine that keeps everyone's screen honest in real time.",
+    ],
+    images: [
+      { src: "/projects/shadow-protocol/1-title.png", alt: "Shadow Protocol title screen" },
+      { src: "/projects/shadow-protocol/2-gameplay.png", alt: "Shadow Protocol gameplay with fog-of-war vision system" },
+    ],
+    githubUrl: "https://github.com/saivilas98/shadow-protocol",
+  },
+  {
+    id: "number-hunt",
+    name: "Number Hunt",
+    tagline: "A minimalist deduction puzzle: guess the secret number, read the pips, narrow it down.",
+    category: "Game",
+    status: "Prototype",
+    why: "Built to see how far a Mastermind-style puzzle could go with zero frameworks.",
+    tech: ["Vanilla JS", "Web Audio API", "CSS custom properties"],
+    paragraphs: [
+      "Each round hides a secret number with no repeated digits. Every guess only tells you two things: how many digits are right, and how many are in the right place. The deduction is entirely on you.",
+      "One HTML file, no build step, but shipped like a real product: keyboard-first play, auto-save mid-game, Wordle-style share text, sound synthesized with zero audio files, and full light/dark/system theming.",
+    ],
+    images: [
+      { src: "/projects/number-hunt/1-menu.png", alt: "Number Hunt difficulty select screen" },
+      { src: "/projects/number-hunt/2-gameplay.png", alt: "Number Hunt gameplay with guess history and feedback pips" },
+    ],
+  },
+  {
+    id: "shiba",
+    name: "Shiba Desktop Pet",
+    tagline: "An ambient companion that lives on your desktop, aware of its windows.",
+    category: "Experimentation",
+    status: "Prototype",
+    why: "Built to experiment with an ambient desktop companion.",
+    tech: ["Tauri", "React", "Pixi.js", "Rust"],
+    paragraphs: [
+      "A shiba puppy that walks across your screen, sits on your windows, and reacts to what you're doing, built on native window-awareness APIs so it can tell where your taskbar and open apps actually are, not just guess.",
+      "The sprite pipeline alone has thirty-odd hand-tuned animations: idle, drag, sneeze, treasure-find. Most of it nobody will ever see head-on. That was kind of the point.",
+    ],
+    images: [{ src: "/projects/shiba/1-pet.png", alt: "Shiba Desktop Pet sprite, happy pose" }],
+    githubUrl: "https://github.com/saivilas98/shiba-desktop-pet",
+  },
+];
+
+export const projectsIntro = {
+  eyebrow: "Things I've Built",
+  title: "Products, experiments & interactive experiences.",
+  description:
+    "Over the past year, I've built 10+ digital products with Claude Code: consumer apps, browser games, and creative interfaces. These are the ones that best represent how I think, build, iterate, and learn.",
 };
 
 export const caseStudy = {
@@ -231,7 +371,7 @@ export const caseStudy = {
     punch: "That gap is where the real work lives.",
   },
   byTheEnd: [
-    "15+ PRDs across features for MoveOS 4 & 5, Ola Bike, Ola Auto",
+    "5+ PRDs across features for MoveOS 4 & 5, Ola Bike, Ola Auto",
     "Cross-functional work with engineering, design, and business",
     "50+ customer calls for Ola Care+ research",
   ],
@@ -274,24 +414,6 @@ export const productThinking: { intro: string; categories: ThinkingCategory[] } 
       description: "How I think about tradeoffs and prioritisation.",
     },
   ],
-};
-
-export type BuildLogEntry = {
-  label: string;
-  status: "shipped" | "in-progress" | "coming";
-};
-
-export const buildLog: { entries: BuildLogEntry[]; shipped: number; total: number } = {
-  entries: [
-    { label: "Run Forge", status: "shipped" },
-    { label: "Hydro Forge", status: "shipped" },
-    { label: "Money Forge", status: "shipped" },
-    { label: "Forge Todo", status: "shipped" },
-    { label: "Product #5", status: "in-progress" },
-    { label: "Product #6", status: "coming" },
-  ],
-  shipped: 4,
-  total: 6,
 };
 
 export type Belief = {

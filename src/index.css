@@ -188,6 +188,26 @@
     opacity: 1;
   }
 
+  /* Halftone dot cluster concentrated in one corner and fading out, like
+     a print production proof rather than a flat repeating pattern. A
+     ::before layer, not a background on the element itself, so the fade
+     mask can't touch real content. */
+  .halftone-corner {
+    position: relative;
+  }
+
+  .halftone-corner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(var(--color-ink) / 0.55) 1.1px, transparent 1.2px);
+    background-size: 10px 10px;
+    mask-image: radial-gradient(55% 50% at 100% 0%, black, transparent 75%);
+    -webkit-mask-image: radial-gradient(55% 50% at 100% 0%, black, transparent 75%);
+  }
+
   .underline-reveal {
     position: relative;
     text-decoration: none;

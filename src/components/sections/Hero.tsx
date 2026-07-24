@@ -48,7 +48,7 @@ export function Hero({ started }: { started: boolean }) {
   const exitOpacity = useTransform(exitProgress, [0, 0.85], [1, 0.15]);
 
   return (
-    <section ref={sectionRef} id="top" className="relative overflow-hidden">
+    <section ref={sectionRef} id="top" className="halftone-corner relative overflow-hidden">
       <motion.div
         variants={stagger(0.09, 0.05)}
         initial="hidden"
@@ -190,30 +190,20 @@ export function Hero({ started }: { started: boolean }) {
         </Container>
 
         <motion.div variants={fadeUp} className="border-t border-line">
-          <Container className="grid grid-cols-2 md:grid-cols-4">
-            {heroMetrics.map((metric, i) => {
-              // 2-col mobile grid: the right column carries a left rule, the
-              // second row carries a top rule. 4-col desktop grid: every
-              // cell but the first carries a left rule and no top rule.
-              const onRightCol = i % 2 === 1;
-              const onSecondRow = i >= 2;
-              const border = [
-                onRightCol ? "border-l border-line pl-6" : "pl-0",
-                onSecondRow ? "border-t border-line md:border-t-0" : "",
-                i > 0 ? "md:border-l md:border-line md:pl-10" : "md:border-l-0 md:pl-0",
-              ].join(" ");
-
-              return (
-                <div key={metric.label} className={`flex flex-col gap-1.5 py-8 pr-4 ${border}`}>
-                  <span className="font-display text-3xl font-medium text-ink md:text-4xl">
-                    <CountUp value={metric.value} />
-                  </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
-                    {metric.label}
-                  </span>
-                </div>
-              );
-            })}
+          <Container className="grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+            {heroMetrics.map((metric) => (
+              <div
+                key={metric.label}
+                className="flex flex-col gap-1.5 py-8 sm:px-10 sm:first:pl-0 sm:last:pr-0"
+              >
+                <span className="font-display text-3xl font-medium text-ink md:text-4xl">
+                  <CountUp value={metric.value} />
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">
+                  {metric.label}
+                </span>
+              </div>
+            ))}
           </Container>
         </motion.div>
       </motion.div>

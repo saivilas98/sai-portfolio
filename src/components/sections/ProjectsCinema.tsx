@@ -162,7 +162,13 @@ function FeatureExhibit({ exhibit, index }: { exhibit: FeaturedExhibit; index: n
 function CompactExhibit({ exhibit, index }: { exhibit: FeaturedExhibit; index: number }) {
   return (
     <Reveal delay={index * 0.05} className="lit card-lift flex h-full flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7">
-      <WindowFrame src={exhibit.images[0].src} alt={exhibit.images[0].alt} />
+      {exhibit.frame === "phone" ? (
+        <div className="flex justify-center py-2">
+          <PhoneFrame src={exhibit.images[0].src} alt={exhibit.images[0].alt} />
+        </div>
+      ) : (
+        <WindowFrame src={exhibit.images[0].src} alt={exhibit.images[0].alt} />
+      )}
 
       <div className="mt-6 flex flex-wrap items-center gap-2">
         <CategoryPill category={exhibit.category} />

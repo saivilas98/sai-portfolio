@@ -24,7 +24,6 @@ export function EducationChip({ institution, detail }: EducationChipProps) {
         whileHover={{ y: -2 }}
         transition={{ type: "spring", stiffness: 320, damping: 20 }}
         className="inline-flex cursor-help items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-muted transition-colors duration-300 hover:border-accent/50 hover:text-ink"
-        data-cursor
       >
         <GraduationCap size={13} className="text-accent" />
         {institution}

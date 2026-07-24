@@ -266,6 +266,8 @@ export type FeaturedExhibit = {
   tech: string[];
   paragraphs: string[];
   images: { src: string; alt: string }[];
+  /** "window" (default) for desktop apps, "phone" for mobile-first ones. */
+  frame?: "window" | "phone";
   liveUrl?: string;
   githubUrl?: string;
 };
@@ -276,7 +278,7 @@ export const featuredExhibits: FeaturedExhibit[] = [
     name: "Fragments",
     tagline: "A psychological puzzle experience told through reconstructed memories.",
     category: "Interactive Experience",
-    status: "Prototype",
+    status: "Live",
     why: "Built to see if a browser tab could hold a story, not just a tool.",
     tech: ["Vanilla JS", "Web Audio API", "CSS"],
     paragraphs: [
@@ -287,6 +289,8 @@ export const featuredExhibits: FeaturedExhibit[] = [
       { src: "/projects/fragments/1-title.png", alt: "Fragments title screen" },
       { src: "/projects/fragments/2-room.png", alt: "Fragments: a first-person memory room with an inventory HUD" },
     ],
+    liveUrl: "https://sai-escape.vercel.app",
+    githubUrl: "https://github.com/saivilas98/fragments-game",
   },
   {
     id: "shadow-protocol",
@@ -311,7 +315,7 @@ export const featuredExhibits: FeaturedExhibit[] = [
     name: "Number Hunt",
     tagline: "A minimalist deduction puzzle: guess the secret number, read the pips, narrow it down.",
     category: "Game",
-    status: "Prototype",
+    status: "Live",
     why: "Built to see how far a Mastermind-style puzzle could go with zero frameworks.",
     tech: ["Vanilla JS", "Web Audio API", "CSS custom properties"],
     paragraphs: [
@@ -322,6 +326,9 @@ export const featuredExhibits: FeaturedExhibit[] = [
       { src: "/projects/number-hunt/1-menu.png", alt: "Number Hunt difficulty select screen" },
       { src: "/projects/number-hunt/2-gameplay.png", alt: "Number Hunt gameplay with guess history and feedback pips" },
     ],
+    frame: "phone",
+    liveUrl: "https://number-hunt-opal.vercel.app",
+    githubUrl: "https://github.com/saivilas98/number-hunt",
   },
   {
     id: "shiba",
@@ -453,7 +460,8 @@ export const resume = {
   experience: [
     "PM Intern · Ola Electric",
     "Data & Analytics Manager · Accordion Partners",
-    "Tech Consultant · Deloitte · Capgemini",
+    "Consultant · Deloitte",
+    "Associate Consultant · Capgemini",
   ],
   education: ["IIM Calcutta · MBA", "IIT Indore · B.Tech, Mechanical Engineering"],
 };

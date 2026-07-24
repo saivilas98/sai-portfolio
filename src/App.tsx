@@ -11,7 +11,6 @@ import { ProductThinking } from "./components/sections/ProductThinking";
 import { ProjectsCinema } from "./components/sections/ProjectsCinema";
 import { Resume } from "./components/sections/Resume";
 import { TopBar } from "./components/sections/TopBar";
-import { Cursor } from "./components/fx/Cursor";
 import { LightField } from "./components/fx/LightField";
 import { Preloader } from "./components/fx/Preloader";
 import { ScrollProgress } from "./components/fx/ScrollProgress";
@@ -32,7 +31,6 @@ function App() {
   return (
     <MotionConfig reducedMotion="user">
       <Preloader onReveal={() => setStarted(true)} />
-      <Cursor />
       <ScrollProgress />
       <LightField />
 

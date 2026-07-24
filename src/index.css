@@ -99,15 +99,6 @@
     user-select: none;
     -webkit-user-drag: none;
   }
-
-  /* The custom cursor replaces the native one only on precise pointers. */
-  @media (pointer: fine) {
-    .has-cursor,
-    .has-cursor a,
-    .has-cursor button {
-      cursor: none;
-    }
-  }
 }
 
 @layer utilities {

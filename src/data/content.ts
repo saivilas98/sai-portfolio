@@ -8,7 +8,7 @@ export const profile = {
   linkedin: "https://linkedin.com/in/saivilas98",
   instagram: "https://instagram.com/saivilas98",
   resumeUrl:
-    "https://drive.google.com/file/d/1vKCkQwqbsCUgAeoc3tGdfXmC7jo75ywl/view?usp=sharing",
+    "https://drive.google.com/file/d/1GoY-9TB3OpKe9NmCbeIgI5zFSML3xnBb/view?usp=sharing",
 };
 
 export type HeroMetric = { value: string; label: string };
